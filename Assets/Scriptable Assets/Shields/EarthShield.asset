@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0005345d15573847a37d65bffade3c7, type: 3}
+  m_Name: EarthShield
+  m_EditorClassIdentifier: 
+  Element: {fileID: 11400000, guid: 28760bfc0d4fd044e82bfdfd79fe49af, type: 2}
+  ShieldMovementSpeed: 0
+  ShieldTickCost: 0

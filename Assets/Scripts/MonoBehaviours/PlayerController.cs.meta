@@ -1,0 +1,28 @@
+fileFormatVersion: 2
+guid: 4b31fbb1665e2664dbf580635b6991f1
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - earthElement: {fileID: 11400000, guid: 28760bfc0d4fd044e82bfdfd79fe49af, type: 2}
+  - fireElement: {fileID: 11400000, guid: d0d9fd77e9e3d8945a696d6b3ef442c7, type: 2}
+  - waterElement: {fileID: 11400000, guid: 27b3793e670d27f47a327cd75bd70cc2, type: 2}
+  - earthProjectile: {fileID: 4051061837421322283, guid: c2ea35ccb62620a4e840f4971b6ee738,
+      type: 3}
+  - fireProjetile: {fileID: 4051061837421322283, guid: c2ea35ccb62620a4e840f4971b6ee738,
+      type: 3}
+  - waterProjectile: {fileID: 4051061837421322283, guid: 64e5df8324c1c6f4c8b52690fde790f2,
+      type: 3}
+  - earthShield: {fileID: 5185282199528734366, guid: 960eb6c5fc1a2284280e543dc3128515,
+      type: 3}
+  - fireShield: {fileID: 6669004543879309679, guid: a323c442bb4d1cd46843539bcaff5a6e,
+      type: 3}
+  - waterShield: {fileID: 2068907826184734625, guid: c0b9a2675d22a594f961db4ba7ab9dda,
+      type: 3}
+  - projectileCaster: {fileID: 11400000, guid: d0488d95205b20a4fb2a56a0b57e95ee, type: 2}
+  - shieldCaster: {fileID: 11400000, guid: 9dc3849e65c4e4a4eb30dfa0e1bbdf9d, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

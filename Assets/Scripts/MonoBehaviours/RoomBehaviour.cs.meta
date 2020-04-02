@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: e93e35993e5fc804f99a132a9b4426fd
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - RoomStart: {instanceID: 0}
+  - RoomEnd: {instanceID: 0}
+  - easyEnemyPrefap: {fileID: 8308176290601327272, guid: 7865a52d4e6359643afe8d35a33f6b11,
+      type: 3}
+  - mediumEnemyPrefap: {fileID: 5716012291876457713, guid: 0008857615e89d442bd5a8cb19e1ebdc,
+      type: 3}
+  - hardEnemyPrefap: {fileID: 7685998310770097115, guid: abb5131a444683f4eae993d4578b0b31,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
