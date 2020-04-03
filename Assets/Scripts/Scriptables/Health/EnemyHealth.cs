@@ -9,7 +9,10 @@ public class EnemyHealth : Health
     {
         if (currentHealth <= 0)
         {
-            GameManager.Instance.EnemyDied();
+            if (obj.tag == "Enemy")
+            {
+                obj.GetComponentInParent<RoomBehaviour>().EnemyDied();
+            }
             Destroy(obj.gameObject);
         }
     }

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    private int roomsSpawned;
+    private int roomsCleared;
+
     [SerializeField] private int baseRoomSpawns = 2;
 
     [SerializeField] private GameObject startPlatformEnd;
@@ -16,6 +19,16 @@ public class LevelManager : MonoBehaviour
     void Start()
     {
         StartCoroutine(spawnRoomsCoroutine());
+    }
+
+    public void RoomCleared()
+    {
+        roomsCleared++;
+
+        if (roomsCleared == roomsSpawned)
+        {
+            GameManager.Instance.AllRoomsClear();
+        }
     }
 
     private IEnumerator spawnRoomsCoroutine()

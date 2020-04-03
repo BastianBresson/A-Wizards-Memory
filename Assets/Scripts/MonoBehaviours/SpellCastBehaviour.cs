@@ -66,24 +66,11 @@ public class SpellCastBehaviour : MonoBehaviour
         }
     }
 
-    /*public void SetSkillTreeValues(SkillTree st)
-    {
-        earthProjectilesLvl = st.EarthProjectilesLvl;
-        fireProjectilesLvl = st.FireProjectilesLvl;
-        waterProjectilesLvl = st.WaterProjectilesLvl;
-
-        earthMultiplierLvl = st.EarthMultiplierLvl;
-        fireMultiplerLvl = st.FireMultiplerLvl;
-        waterMultiplierLvl = st.WaterMultiplierLvl;
-
-        multiplierValue = st.MultiplierValue;
-    }*/
-
     void SpawnProjectile(GameObject caster, GameObject projectile, Vector3 direction, int multiplierLvl)
     {
         Vector3 spawnOffset = direction * spellSpawnOffset;
         Vector3 spawnPosition = caster.transform.position + spawnOffset;
-        spawnPosition.y = 1;
+        spawnPosition.y -= 0.5f;
         ProjectileSpellBehaviour spell = Instantiate(projectile, spawnPosition, Quaternion.LookRotation(direction)).GetComponent<ProjectileSpellBehaviour>();
         spell.direction = direction;
 

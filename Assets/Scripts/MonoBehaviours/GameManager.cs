@@ -31,9 +31,6 @@ public class GameManager : MonoBehaviour
     private Element levelElement;
     private UpgradeType upgradeType;
 
-    private int totalEnemies = 0;
-    private int deadEnemies = 0;
-
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
@@ -60,21 +57,26 @@ public class GameManager : MonoBehaviour
 
         PlayerPosition = GameObject.FindWithTag("Player").GetComponent<Transform>().position;
 
-        SceneManager.LoadScene("LevelScene");
+        switch (levelElement.ElementType)
+        {
+            case Element.ElementEnum.Fire:
+                SceneManager.LoadScene("FireLevelScene");
+                break;
+            case Element.ElementEnum.Water:
+                SceneManager.LoadScene("WaterLevelScene");
+                break;
+            case Element.ElementEnum.Earth:
+                SceneManager.LoadScene("EarthLevelScene");
+                break;
+            default:
+                break;
+        }
     }
 
-    // TODO: make event based
-    public void EnemySpawned() => totalEnemies++;
 
-    // TODO: make event based
-    public void EnemyDied()
+    public void AllRoomsClear()
     {
-        deadEnemies++;
-
-        if (deadEnemies == totalEnemies)
-        {
-            LevelComplete();
-        }
+        LevelComplete();
     }
 
 
@@ -95,8 +97,6 @@ public class GameManager : MonoBehaviour
 
         // Reset level-related variables
         levelElement = null;
-        totalEnemies = 0;
-        deadEnemies = 0;
 
         SceneManager.LoadScene("MemoryLevel");
     }

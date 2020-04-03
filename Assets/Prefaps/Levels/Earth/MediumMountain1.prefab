@@ -1262,6 +1262,8 @@ MonoBehaviour:
   roomLevel: 2
   RoomStart: {fileID: 5155440404143892183}
   RoomEnd: {fileID: 1341637923896193772}
+  roomBlocker: {fileID: 4219884558758608366}
+  disableBlockerFromStart: 1
   easyEnemyPrefap: {fileID: 8308176290601327272, guid: 7865a52d4e6359643afe8d35a33f6b11,
     type: 3}
   mediumEnemyPrefap: {fileID: 5716012291876457713, guid: 0008857615e89d442bd5a8cb19e1ebdc,
@@ -3174,15 +3176,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9895c90789dc65f43b634d01ae3eec7a, type: 3}
---- !u!1 &5777064016632862889 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2928077738853560423, guid: 9895c90789dc65f43b634d01ae3eec7a,
-    type: 3}
-  m_PrefabInstance: {fileID: 8687125020244158670}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5015813652302917579 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4401531812273080069, guid: 9895c90789dc65f43b634d01ae3eec7a,
+    type: 3}
+  m_PrefabInstance: {fileID: 8687125020244158670}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5777064016632862889 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2928077738853560423, guid: 9895c90789dc65f43b634d01ae3eec7a,
     type: 3}
   m_PrefabInstance: {fileID: 8687125020244158670}
   m_PrefabAsset: {fileID: 0}
@@ -3393,6 +3395,12 @@ PrefabInstance:
 --- !u!4 &6626177498894443416 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2882230890408568066, guid: 52ed9fd41d7b655409abee1ae32b7e22,
+    type: 3}
+  m_PrefabInstance: {fileID: 8938331263794661018}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4219884558758608366 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5087763870106893172, guid: 52ed9fd41d7b655409abee1ae32b7e22,
     type: 3}
   m_PrefabInstance: {fileID: 8938331263794661018}
   m_PrefabAsset: {fileID: 0}

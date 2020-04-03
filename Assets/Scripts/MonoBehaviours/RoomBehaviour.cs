@@ -5,11 +5,15 @@ using System.Linq;
 
 public class RoomBehaviour : MonoBehaviour
 {
+    private int enemiesAlive = 0;
+
     [SerializeField] int roomLevel = 1;
 
     [Space(5)]
     public GameObject RoomStart;
     public GameObject RoomEnd;
+    [SerializeField] GameObject roomBlocker;
+    [SerializeField] bool disableBlockerFromStart;
 
     [Space(5)]
     [SerializeField] private GameObject easyEnemyPrefap;
@@ -19,25 +23,34 @@ public class RoomBehaviour : MonoBehaviour
     [Space(5)]
     [SerializeField] private List<GameObject> enemySpawns = new List<GameObject>();
 
-    
-    GameManager gameManager;
-
     // Start is called before the first frame update
     void Start()
     {
-        gameManager = GameManager.Instance;
 
         if (enemySpawns.Count == 0)
         {
             Debug.LogError("There is no Enemy spawns!");
         }
-        else if (gameManager == null)
+
+        if (disableBlockerFromStart == true)
         {
-            Debug.LogError("GameManager is NULL");
-        }
+            roomBlocker.SetActive(false);
+        }  
 
         StartCoroutine(SpawnEnemies());
         
+    }
+
+    public void EnemyDied()
+    {
+        enemiesAlive--;
+
+        if (enemiesAlive == 0)
+        {
+            bool disabled = disableBlockerFromStart == true ? true : false;
+            roomBlocker.SetActive(disabled);
+            FindObjectOfType<LevelManager>().RoomCleared();
+        }
     }
 
     private IEnumerator SpawnEnemies()
@@ -49,29 +62,35 @@ public class RoomBehaviour : MonoBehaviour
             yield return null;
 
             int spawnIndex = Random.Range(0, enemySpawns.Count);
-            int enemyDifficulty = Random.Range(1, gameManager.LevelsCompleted + 1);
+            int enemyDifficulty = Random.Range(1, GameManager.Instance.LevelsCompleted + 1);
             enemyDifficulty = Mathf.Clamp(enemyDifficulty, 1, 3);
             GameObject spawn = enemySpawns[spawnIndex];
             Vector3 spawnPosition = spawn.transform.position;
-            //spawnPosition.y = 3;
 
-            if (enemyDifficulty == 1)
-            {
-                Instantiate(easyEnemyPrefap, spawnPosition, Quaternion.identity);
-            }
-            else if (enemyDifficulty == 2)
-            {
-                Instantiate(mediumEnemyPrefap, spawnPosition, Quaternion.identity);
-            }
-            else if (enemyDifficulty == 3)
-            {
-                Instantiate(hardEnemyPrefap, spawnPosition, Quaternion.identity);
-            }
+            GameObject enemyPrefab;
 
-            gameManager.EnemySpawned();
+            switch (enemyDifficulty)
+            {
+                case 1:
+                    enemyPrefab = easyEnemyPrefap;
+                    break;
+                case 2:
+                    enemyPrefab = mediumEnemyPrefap;
+                    break;
+                case 3:
+                    enemyPrefab = hardEnemyPrefap;
+                    break;
+                default:
+                    enemyPrefab = easyEnemyPrefap;
+                    break;
+            }
+            
+            // TODO: Fix level prefaps root scale. Enemies inherent their scale, and I fucked up and scaled that at some point.
+            Instantiate(enemyPrefab, spawnPosition, Quaternion.identity, this.transform);
 
+            enemiesAlive++;
+            
             enemySpawns.Remove(spawn);
         }
     }
-
 }
