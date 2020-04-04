@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
 
     public Vector3 PlayerPosition;
 
-    public int LevelsCompleted { get; private set; } = 0;
+    public int LevelsCompleted { get; private set; } = 16;
 
     private List<uint> selectorsCompleted = new List<uint>();
 

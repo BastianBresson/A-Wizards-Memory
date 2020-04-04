@@ -11,9 +11,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MemoryLevel.unity
     guid: 1d87264aab65acf448b048d74a810e26
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/LevelScene.unity
     guid: 4b2ed117641c38a469857583b5f2705d
+  - enabled: 1
+    path: Assets/Scenes/EarthLevelScene.unity
+    guid: 0387dc173b6d19f4fb149af340cbdf19
+  - enabled: 1
+    path: Assets/Scenes/FireLevelScene.unity
+    guid: 46c434a8bdea07645a25ba8ac163738c
+  - enabled: 1
+    path: Assets/Scenes/WaterLevelScene.unity
+    guid: 1fdd3ad23fab6ca458bed82dda2a2b96
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: aac1fff03d8d64c4783fb9ee9f9f5018,
       type: 2}
