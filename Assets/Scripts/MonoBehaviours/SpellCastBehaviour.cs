@@ -86,9 +86,9 @@ public class SpellCastBehaviour : MonoBehaviour
         Vector3 direction = Direction(rayHitLocation, caster.transform.position);
         Vector3 spawnPosition = caster.transform.position + (direction * spellSpawnOffset);
         float spawnHeight = shield.transform.lossyScale.y / 2 + 0.5f; // to ensure shield spawns 0.5 above ground
-        spawnPosition.y = spawnHeight;
+        spawnPosition.y += spawnHeight;
 
-        GameObject shieldSpawn = Instantiate(shield, spawnPosition, Quaternion.LookRotation(direction));
+        GameObject shieldSpawn = Instantiate(shield, spawnPosition, Quaternion.LookRotation(direction), this.transform);
         shieldSpawn.GetComponent<ShieldBehaviour>().Caster = caster;
 
         if (caster.tag == "Player")

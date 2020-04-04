@@ -35,12 +35,15 @@ public class ShieldBehaviour : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             Vector3 heading = hit.point - Caster.transform.position;
-            heading.y = 0;
+            //heading.y = 0;
             Vector3 newPosition = Caster.transform.position + (heading / heading.magnitude) * 1.2f;
-            newPosition.y = transform.position.y;
 
+            float height = transform.lossyScale.y / 2 + 0.5f;
+            newPosition.y += height;
+
+            heading.y += height;
             // TODO: make shield move slowly in a circular motion
-            transform.position = Vector3.Lerp(transform.position, newPosition, 1);
+            transform.position = Vector3.Lerp(transform.position, newPosition, 0.1f);
             transform.rotation = Quaternion.LookRotation(heading);
         }
     }

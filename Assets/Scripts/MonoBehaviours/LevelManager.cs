@@ -63,6 +63,8 @@ public class LevelManager : MonoBehaviour
 
             GameObject room = Instantiate(roomToSpawn);
 
+            roomsSpawned++;
+
             RoomBehaviour roomBehaviour = room.GetComponent<RoomBehaviour>();
 
             Vector3 distance = end.transform.position - roomBehaviour.RoomStart.transform.position;
