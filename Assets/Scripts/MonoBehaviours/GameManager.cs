@@ -26,7 +26,12 @@ public class GameManager : MonoBehaviour
 
     public int LevelsCompleted { get; private set; } = 0;
 
-    private List<uint> selectorsCompleted = new List<uint>();
+    private uint? selectedLevel = null;
+    private uint completedLevel;
+
+    // stores completed levels, and their chosen bridge/path
+    private Dictionary<uint, uint?> memoryLevelsCompleted = new Dictionary<uint, uint?>();
+    private List<uint> memoryLevelsKnown = new List<uint>(); // Save/load dependant
 
     private Element levelElement;
     private UpgradeType upgradeType;
@@ -42,16 +47,43 @@ public class GameManager : MonoBehaviour
         GameObject.FindWithTag("Player").GetComponent<SpellCastBehaviour>().ClearSkillTree();
     } 
 
-    public bool SelectorCompleted(uint id)
+    public bool IsMemoryLevelKnown(uint id)
     {
-        return selectorsCompleted.Contains(id);
+        return memoryLevelsKnown.Contains(id);
     }
 
-    // Store the chosen level's element and upgrade type..
+    public bool IsMemoryLevelCompleted(uint id)
+    {
+        return memoryLevelsCompleted.ContainsKey(id);
+    }
+
+    public uint? MemoryLevelActiveBridge(uint id)
+    {
+        if (memoryLevelsCompleted.ContainsKey(id))
+        {
+            return memoryLevelsCompleted[id];
+        }
+        else return null;
+    }
+
+    public void SelectedBridge(uint id, uint? bridge)
+    {
+        memoryLevelsCompleted[id] = bridge;
+    }
+
+    public void AddStartKnownMemoryLevel(uint id)
+    {
+        if (memoryLevelsKnown.Contains(id) == false)
+        {
+            memoryLevelsKnown.Add(id);
+        }
+    }
+
+    // Store the chosen level's element and upgrade type
     // Store player's position before loading new scene
     public void LoadLevelScene(uint id, Element element, UpgradeType upgradeType)
     {
-        selectorsCompleted.Add(id);
+        selectedLevel = id;
         levelElement = element;
         this.upgradeType = upgradeType;
 
@@ -73,16 +105,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
-    public void AllRoomsClear()
-    {
-        LevelComplete();
-    }
-
-
-    private void LevelComplete()
+    public void LevelComplete()
     {
         LevelsCompleted++;
+
+        completedLevel = (uint)selectedLevel;
+        selectedLevel = null;
+
+        memoryLevelsCompleted.Add(completedLevel, null);
 
         // Upgrade the player
         GameObject player = GameObject.FindWithTag("Player");

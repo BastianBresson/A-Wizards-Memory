@@ -27,7 +27,7 @@ public class LevelManager : MonoBehaviour
 
         if (roomsCleared == roomsSpawned)
         {
-            GameManager.Instance.AllRoomsClear();
+            GameManager.Instance.LevelComplete();
         }
     }
 
