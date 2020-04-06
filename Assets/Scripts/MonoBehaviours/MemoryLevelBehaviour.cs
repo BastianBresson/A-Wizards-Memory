@@ -30,7 +30,6 @@ public class MemoryLevelBehaviour : MonoBehaviour
         isCompleted = gameManager.IsMemoryLevelCompleted(ID);
 
         bool enableMemoryLevel = isStartLevel == true || isKnown == true || isCompleted == true;
-
         bool disableBridges = isStartLevel == false && isCompleted == false && isKnown == true;
 
         if (enableMemoryLevel == false)
@@ -43,9 +42,7 @@ public class MemoryLevelBehaviour : MonoBehaviour
         {
             DisableBridges();
         }
-
     }
-
 
     private void DisableBridges()
     {

@@ -11,6 +11,7 @@ public class ElementLevelSelectBehaviour : MonoBehaviour
     private float intensityChange = 15f;
 
     private Light pointLight;
+    private SelectBehaviour selector;
     private GameManager gameManager;
 
     [SerializeField] private Element element;
@@ -27,6 +28,8 @@ public class ElementLevelSelectBehaviour : MonoBehaviour
         pointLight = this.gameObject.GetComponentInChildren<Light>();
 
         gameManager = GameManager.Instance;
+        selector = this.gameObject.AddComponent<SelectBehaviour>();
+        selector.OnSelect = this.Selected;
 
         if (gameManager.IsMemoryLevelCompleted(this.id) == true)
         {
@@ -56,8 +59,7 @@ public class ElementLevelSelectBehaviour : MonoBehaviour
         {
             pointLight.intensity += intensityChange;
 
-            // Tell player they can select
-            other.GetComponent<PlayerController>().LevelSelectorCollision(true, this);
+            selector.NotifyPlayerController(true, other.GetComponent<PlayerController>());
         }
     }
 
@@ -68,8 +70,7 @@ public class ElementLevelSelectBehaviour : MonoBehaviour
         {
             pointLight.intensity -= intensityChange;
 
-            // Tell player they can no longer select
-            other.GetComponent<PlayerController>().LevelSelectorCollision(false, this);
+            selector.NotifyPlayerController(false, other.GetComponent<PlayerController>());
         }
     }
 }

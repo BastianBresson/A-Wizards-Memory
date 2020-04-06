@@ -6,6 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    private bool canSelect;
+    private SelectBehaviour selector;
+
     // Movment
     InputMaster controls;
     CharacterController controller;
@@ -163,23 +166,18 @@ public class PlayerController : MonoBehaviour
 
     private void InputSelect()
     {
-        if (levelSelector != null)
+        if (canSelect == true)
         {
-            // Tell level selector that i have selected
-            levelSelector.Selected();
+            selector.Selected();
         }
     }
 
-    public void LevelSelectorCollision(bool entered, ElementLevelSelectBehaviour selector)
+    public void SelectCollision(bool entered, SelectBehaviour selector)
     {
-        if (entered == true)
-        {
-            levelSelector = selector;
-        }
-        else
-        {
-            levelSelector = null;
-        }
+        canSelect = entered;
+
+        this.selector = entered == true ? selector : null;
+
     }
 
     private void OnEnable()
