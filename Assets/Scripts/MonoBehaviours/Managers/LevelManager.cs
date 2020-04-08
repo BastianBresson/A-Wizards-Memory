@@ -7,7 +7,7 @@ public class LevelManager : MonoBehaviour
     private int roomsSpawned;
     private int roomsCleared;
 
-    [SerializeField] private int baseRoomSpawns = 2;
+    private int baseRoomSpawns = 0;
 
     [SerializeField] private GameObject startPlatformEnd;
 

@@ -7,6 +7,8 @@ public class MemoryLevelBehaviour : MonoBehaviour
     private bool isKnown;
     private bool isCompleted;
 
+    private uint? selectedBridgeID;
+
     [SerializeField] private uint id;
     public uint ID { get { return id; } private set { id = value; } }
 
@@ -34,17 +36,51 @@ public class MemoryLevelBehaviour : MonoBehaviour
 
         if (enableMemoryLevel == false)
         {
-            DisableBridges();
+            DisableAllBridges();
             this.gameObject.SetActive(false);
         }
 
         if (disableBridges == true)
         {
-            DisableBridges();
+            DisableAllBridges();
+        }
+
+        if (isCompleted == true)
+        {
+            enableBridgeSelection();
         }
     }
 
-    private void DisableBridges()
+    public void onBridgeSelected(uint bridgeID)
+    {
+        GameManager.Instance.SelectedBridge(this.id, bridgeID);
+
+        DisableNonSelectedBridges(bridgeID);
+    }
+
+    private void enableBridgeSelection()
+    {
+        foreach (GameObject bridge in bridges)
+        {
+            bridge.GetComponent<BridgeBehaviour>().EnableSelection();
+        }
+    }
+
+
+    private void DisableNonSelectedBridges(uint id)
+    {
+        foreach (GameObject bridge in bridges)
+        {
+            uint bridgeID = bridge.GetComponent<BridgeBehaviour>().ID;
+
+            if (bridgeID != id)
+            {
+                bridge.SetActive(false);
+            }
+        }
+    }
+
+    private void DisableAllBridges()
     {
         if (bridges.Length == 0)
         {
@@ -55,6 +91,4 @@ public class MemoryLevelBehaviour : MonoBehaviour
             bridge.SetActive(false);
         }
     }
-
-    // Select Next step
 }
