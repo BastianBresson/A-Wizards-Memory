@@ -45,39 +45,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         GameObject.FindWithTag("Player").GetComponent<SpellCastBehaviour>().ClearSkillTree();
-    } 
-
-    public bool IsMemoryLevelKnown(uint id)
-    {
-        return memoryLevelsKnown.Contains(id);
     }
 
-    public bool IsMemoryLevelCompleted(uint id)
-    {
-        return memoryLevelsCompleted.ContainsKey(id);
-    }
-
-    public uint? MemoryLevelActiveBridge(uint id)
-    {
-        if (memoryLevelsCompleted.ContainsKey(id))
-        {
-            return memoryLevelsCompleted[id];
-        }
-        else return null;
-    }
-
-    public void SelectedBridge(uint id, uint? bridge)
-    {
-        memoryLevelsCompleted[id] = bridge;
-    }
-
-    public void AddStartKnownMemoryLevel(uint id)
-    {
-        if (memoryLevelsKnown.Contains(id) == false)
-        {
-            memoryLevelsKnown.Add(id);
-        }
-    }
 
     // Store the chosen level's element and upgrade type
     // Store player's position before loading new scene
@@ -105,6 +74,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
     public void LevelComplete()
     {
         LevelsCompleted++;
@@ -116,7 +86,7 @@ public class GameManager : MonoBehaviour
 
         // Upgrade the player
         GameObject player = GameObject.FindWithTag("Player");
-        if (player != null)
+        if (player != null && upgradeType != UpgradeType.None)
         {
             player.GetComponent<SpellCastBehaviour>().UpgradeSkillTree(levelElement, upgradeType);
         }
@@ -129,5 +99,48 @@ public class GameManager : MonoBehaviour
         levelElement = null;
 
         SceneManager.LoadScene("MemoryLevel");
+    }
+
+
+    public bool isMemoryLevelKnown(uint id)
+    {
+        return memoryLevelsKnown.Contains(id);
+    }
+
+
+    public bool isMemoryLevelCompleted(uint id)
+    {
+        return memoryLevelsCompleted.ContainsKey(id);
+    }
+
+
+    public uint? MemoryLevelChosenBridge(uint id)
+    {
+        if (memoryLevelsCompleted.ContainsKey(id))
+        {
+            return memoryLevelsCompleted[id];
+        }
+        else return null;
+    }
+
+
+    public void SelectedBridge(uint id, uint? bridge)
+    {
+        memoryLevelsCompleted[id] = bridge;
+    }
+
+
+    public void AddKnownMemoryLevel(uint id)
+    {
+        memoryLevelsKnown.Add(id);
+    }
+
+
+    public void AddStartKnownMemoryLevel(uint id)
+    {
+        if (memoryLevelsKnown.Contains(id) == false)
+        {
+            memoryLevelsKnown.Add(id);
+        }
     }
 }

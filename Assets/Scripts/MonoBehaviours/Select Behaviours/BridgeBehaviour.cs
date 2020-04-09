@@ -7,6 +7,7 @@ public class BridgeBehaviour : MonoBehaviour
     private SelectBehaviour selector;
 
     [SerializeField] private GameObject selectCollider;
+    [SerializeField] private GameObject nextMemoryLevel;
 
     [SerializeField] private uint id;
     public uint ID { get { return id; } private set { id = value; } }
@@ -42,7 +43,10 @@ public class BridgeBehaviour : MonoBehaviour
 
     private void Selected()
     {
-        GetComponentInParent<MemoryLevelBehaviour>().onBridgeSelected(this.id);
+        nextMemoryLevel.SetActive(true);
+        uint nextMemoryLevelID = nextMemoryLevel.GetComponent<MemoryLevelBehaviour>().ID;
+
+        GetComponentInParent<MemoryLevelBehaviour>().onBridgeSelected(this.id, nextMemoryLevelID);
         selectCollider.SetActive(false);
     }
 }

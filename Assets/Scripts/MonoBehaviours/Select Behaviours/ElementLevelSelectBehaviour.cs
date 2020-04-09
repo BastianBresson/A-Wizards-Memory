@@ -2,54 +2,61 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// TODO: Move this to correct location
-public enum UpgradeType { Multiplier, Projectiles };
 
 public class ElementLevelSelectBehaviour : MonoBehaviour
 {
     private uint id;
-    private float intensityChange = 15f;
 
-    private Light pointLight;
     private SelectBehaviour selector;
     private GameManager gameManager;
 
-    [SerializeField] private Element element;
-    
-    public UpgradeType upgradeType = UpgradeType.Multiplier;
+    [SerializeField] LevelSelect levelSelect;
+    private Element element;
+    private UpgradeType upgradeType;
+    private Material material;
 
-
-    // Start is called before the first frame update
     private void Start()
     {
-        // Inheret ID
+        DisableIfCompleted();
+
+        getLevelSelectVariables();
+        setMaterial(material);
+
+        // Selector and MemoryLevel needs to have the same ID
         id = GetComponentInParent<MemoryLevelBehaviour>().ID;
 
-        pointLight = this.gameObject.GetComponentInChildren<Light>();
-
         gameManager = GameManager.Instance;
+
         selector = this.gameObject.AddComponent<SelectBehaviour>();
         selector.OnSelect = this.Selected;
+    }
 
-        if (gameManager.IsMemoryLevelCompleted(this.id) == true)
+
+    public void Selected()
+    {
+        gameManager.LoadLevelScene(this.id, element, upgradeType);
+    }
+
+
+    private void DisableIfCompleted()
+    {
+        if (gameManager.isMemoryLevelCompleted(this.id))
         {
             this.gameObject.SetActive(false);
         }
     }
 
-    // Tell game manager about selection
-    public void Selected()
+    private void getLevelSelectVariables()
     {
-        if (gameManager != null)
-        {
-            gameManager.LoadLevelScene(this.id, element, upgradeType);
-        }
-        else
-        {
-            Debug.LogError("GameManager is NULL");
-        }
+        element = levelSelect.element;
+        upgradeType = levelSelect.upgradeType;
+        material = levelSelect.material;
+    }
 
-        Destroy(this.gameObject);
+
+    private void setMaterial(Material material)
+    {
+        this.gameObject.GetComponent<Renderer>().material = this.material;
     }
 
 
@@ -57,8 +64,6 @@ public class ElementLevelSelectBehaviour : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            pointLight.intensity += intensityChange;
-
             selector.NotifyPlayerController(true, other.GetComponent<PlayerController>());
         }
     }
@@ -68,8 +73,6 @@ public class ElementLevelSelectBehaviour : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            pointLight.intensity -= intensityChange;
-
             selector.NotifyPlayerController(false, other.GetComponent<PlayerController>());
         }
     }

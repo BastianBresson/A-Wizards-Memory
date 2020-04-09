@@ -28,8 +28,8 @@ public class MemoryLevelBehaviour : MonoBehaviour
             gameManager.AddStartKnownMemoryLevel(this.id);
         }
 
-        isKnown = gameManager.IsMemoryLevelKnown(ID);
-        isCompleted = gameManager.IsMemoryLevelCompleted(ID);
+        isKnown = gameManager.isMemoryLevelKnown(ID);
+        isCompleted = gameManager.isMemoryLevelCompleted(ID);
 
         bool enableMemoryLevel = isStartLevel == true || isKnown == true || isCompleted == true;
         bool disableBridges = isStartLevel == false && isCompleted == false && isKnown == true;
@@ -51,10 +51,10 @@ public class MemoryLevelBehaviour : MonoBehaviour
         }
     }
 
-    public void onBridgeSelected(uint bridgeID)
+    public void onBridgeSelected(uint bridgeID, uint nextMemoryLevel)
     {
         GameManager.Instance.SelectedBridge(this.id, bridgeID);
-
+        GameManager.Instance.AddKnownMemoryLevel(nextMemoryLevel);
         DisableNonSelectedBridges(bridgeID);
     }
 
