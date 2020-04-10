@@ -5,10 +5,9 @@ using UnityEngine;
 
 public class ElementLevelSelectBehaviour : MonoBehaviour
 {
-    private uint id;
+    public uint id;
 
     private SelectBehaviour selector;
-    private GameManager gameManager;
 
     [SerializeField] LevelSelect levelSelect;
     private Element element;
@@ -17,15 +16,12 @@ public class ElementLevelSelectBehaviour : MonoBehaviour
 
     private void Start()
     {
+        // Selector and MemoryLevel needs to have the same ID
+        id = GetComponentInParent<MemoryLevelBehaviour>().ID;
         DisableIfCompleted();
 
         getLevelSelectVariables();
         setMaterial(material);
-
-        // Selector and MemoryLevel needs to have the same ID
-        id = GetComponentInParent<MemoryLevelBehaviour>().ID;
-
-        gameManager = GameManager.Instance;
 
         selector = this.gameObject.AddComponent<SelectBehaviour>();
         selector.OnSelect = this.Selected;
@@ -34,13 +30,13 @@ public class ElementLevelSelectBehaviour : MonoBehaviour
 
     public void Selected()
     {
-        gameManager.LoadLevelScene(this.id, element, upgradeType);
+        GameManager.Instance.LoadLevelScene(this.id, element, upgradeType);
     }
 
 
     private void DisableIfCompleted()
     {
-        if (gameManager.isMemoryLevelCompleted(this.id))
+        if (GameManager.Instance.isMemoryLevelCompleted(this.id))
         {
             this.gameObject.SetActive(false);
         }

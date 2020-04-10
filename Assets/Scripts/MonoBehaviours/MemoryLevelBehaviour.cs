@@ -32,22 +32,26 @@ public class MemoryLevelBehaviour : MonoBehaviour
         isCompleted = gameManager.isMemoryLevelCompleted(ID);
 
         bool enableMemoryLevel = isStartLevel == true || isKnown == true || isCompleted == true;
-        bool disableBridges = isStartLevel == false && isCompleted == false && isKnown == true;
+        bool disableBridges = isCompleted == false;
+        bool isJustCompleted = gameManager.latestCompletedLevel() == this.id;
 
         if (enableMemoryLevel == false)
         {
             DisableAllBridges();
             this.gameObject.SetActive(false);
         }
-
-        if (disableBridges == true)
+        else if (disableBridges == true)
         {
             DisableAllBridges();
         }
-
-        if (isCompleted == true)
+        else if (isJustCompleted == true)
         {
             enableBridgeSelection();
+        }
+        else if (isCompleted)
+        {
+            uint chosenBridge = (uint)gameManager.MemoryLevelChosenBridge(this.id);
+            DisableNonSelectedBridges(chosenBridge);
         }
     }
 
@@ -82,13 +86,13 @@ public class MemoryLevelBehaviour : MonoBehaviour
 
     private void DisableAllBridges()
     {
-        if (bridges.Length == 0)
+        if (bridges.Length > 0 && bridges != null)
         {
-            return;
+            foreach (GameObject bridge in bridges)
+            {
+                bridge.SetActive(false);
+            }
         }
-        foreach (GameObject bridge in bridges)
-        {
-            bridge.SetActive(false);
-        }
+
     }
 }

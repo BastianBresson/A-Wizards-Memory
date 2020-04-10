@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3adaef8a9c5f4bc458eb412899b5483b, type: 3}
-  m_Name: WaterMultiplierLevelSelect
+  m_Name: NormalWaterLevelSelect
   m_EditorClassIdentifier: 
   element: {fileID: 11400000, guid: 27b3793e670d27f47a327cd75bd70cc2, type: 2}
-  upgradeType: 1
-  material: {fileID: 2100000, guid: 4ece5ee07d9ce814988b00df6c7f4ed7, type: 2}
+  upgradeType: 0
+  material: {fileID: 2100000, guid: d58e65c71b18d7d4e9d9abb139c23c68, type: 2}

@@ -86,13 +86,9 @@ public class GameManager : MonoBehaviour
 
         // Upgrade the player
         GameObject player = GameObject.FindWithTag("Player");
-        if (player != null && upgradeType != UpgradeType.None)
+        if (upgradeType != UpgradeType.None)
         {
             player.GetComponent<SpellCastBehaviour>().UpgradeSkillTree(levelElement, upgradeType);
-        }
-        else
-        {
-            Debug.LogError("Player is NULL");
         }
 
         // Reset level-related variables
@@ -101,6 +97,10 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene("MemoryLevel");
     }
 
+    public uint latestCompletedLevel()
+    {
+        return completedLevel;
+    }
 
     public bool isMemoryLevelKnown(uint id)
     {
