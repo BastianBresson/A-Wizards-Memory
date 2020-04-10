@@ -16,6 +16,7 @@ MonoBehaviour:
   - {fileID: 6835792184391727363}
   - {fileID: 459023865638659697}
   - {fileID: 232700651808756580}
+  - {fileID: 4892900536967064941}
 --- !u!114 &232700651808756580
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -97,8 +98,8 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: {x: 1, y: 1, z: 1, w: 0}
   highlights:
-    m_OverrideState: 0
-    m_Value: {x: 1, y: 1, z: 1, w: 0}
+    m_OverrideState: 1
+    m_Value: {x: 0.99226725, y: 0.9894653, z: 1, w: 0}
   shadowsStart:
     m_OverrideState: 0
     m_Value: 0
