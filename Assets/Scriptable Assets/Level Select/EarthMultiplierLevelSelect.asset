@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: EarthMultiplierLevelSelect
   m_EditorClassIdentifier: 
   element: {fileID: 11400000, guid: 28760bfc0d4fd044e82bfdfd79fe49af, type: 2}
-  upgradeType: 0
+  upgradeType: 1
   material: {fileID: 2100000, guid: 0961bb92f1d23534780b2091f20b176d, type: 2}

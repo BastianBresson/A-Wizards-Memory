@@ -25,7 +25,7 @@ public class BridgeBehaviour : MonoBehaviour
     public void EnableSelection()
     {
         bridge.SetActive(false);
-        selectCollider.SetActive(true);
+        StartCoroutine(activateSelector());
     }
 
     public void onPlayerEnteredTrigger(PlayerController playerController)
@@ -52,5 +52,11 @@ public class BridgeBehaviour : MonoBehaviour
 
         bridge.SetActive(true);
         selectCollider.SetActive(false);
+    }
+
+    IEnumerator activateSelector()
+    {
+        yield return new WaitForSeconds(.5f);
+        selectCollider.SetActive(true);
     }
 }
