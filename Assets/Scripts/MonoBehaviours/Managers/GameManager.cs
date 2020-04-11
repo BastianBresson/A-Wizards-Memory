@@ -22,43 +22,115 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    public Vector3 PlayerPosition;
-
-    public int LevelsCompleted { get; private set; } = 0;
-
     private uint? selectedLevel = null;
     private uint completedLevel;
 
-    // stores completed levels, and their chosen bridge/path
+    // Stores completed levels, and their chosen bridge/path
     private Dictionary<uint, uint?> memoryLevelsCompleted = new Dictionary<uint, uint?>();
     private List<uint> memoryLevelsKnown = new List<uint>(); // Save/load dependant
 
     private Element levelElement;
-    private UpgradeType upgradeType;
+    private UpgradeType levelUpgradeType;
+
+    public Vector3 PlayerPosition;
+
+    public int LevelsCompleted { get; private set; } = 0;
 
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
     }
 
-    // Start is called before the first frame update
-    void Start()
+    // Only run ones (on game startup) due to singleton pattern and not being destroyed on scene load, see Awake()
+    private void Start()
     {
-        GameObject.FindWithTag("Player").GetComponent<SpellCastBehaviour>().ClearSkillTree();
+        GameObject player = FindPlayer();
+        ResetPlayer(player);
     }
 
 
-    // Store the chosen level's element and upgrade type
-    // Store player's position before loading new scene
     public void LoadLevelScene(uint id, Element element, UpgradeType upgradeType)
     {
-        selectedLevel = id;
-        levelElement = element;
-        this.upgradeType = upgradeType;
+        StoreSelectedLevelVariables(id, element, upgradeType);
 
-        PlayerPosition = GameObject.FindWithTag("Player").GetComponent<Transform>().position;
+        GameObject player = FindPlayer();
+        PlayerPosition = GetPlayerPosition(player);
 
-        switch (levelElement.ElementType)
+        LoadElementLevelScene(element);
+    }
+
+
+    public void LevelComplete()
+    {
+        LevelsCompleted++;
+
+        completedLevel = (uint)selectedLevel;
+        memoryLevelsCompleted.Add(completedLevel, null);
+
+        GameObject player = FindPlayer();
+        UpgradePlayer(player);
+
+        ResetLevelVariables();
+
+        SceneManager.LoadScene("MemoryLevel");
+    }
+
+    private void StoreSelectedLevelVariables(uint levelID, Element element, UpgradeType upgradeType)
+    {
+        selectedLevel = levelID;
+        this.levelElement = element;
+        this.levelUpgradeType = upgradeType;
+    }
+
+
+    private void ResetLevelVariables()
+    {
+        selectedLevel = null;
+        levelElement = null;
+    }
+
+
+    private GameObject FindPlayer()
+    {
+        GameObject player = GameObject.FindWithTag("Player");
+        return player;
+    }
+
+
+    private Vector3 GetPlayerPosition(GameObject player)
+    {
+        Vector3 position = player.transform.position;
+        return position;
+    }
+
+
+    private SpellCastBehaviour GetPlayerSpellSystem(GameObject player)
+    {
+        SpellCastBehaviour spellSystem = player.GetComponent<SpellCastBehaviour>();
+        return spellSystem;
+    }
+
+
+    private void ResetPlayer(GameObject player)
+    {
+        SpellCastBehaviour playerSpellSystem = GetPlayerSpellSystem(player);
+        playerSpellSystem.ClearSkillTree();
+    }
+
+
+    private void UpgradePlayer(GameObject player)
+    {
+        if (levelUpgradeType != UpgradeType.None)
+        {
+            SpellCastBehaviour spellSystem = GetPlayerSpellSystem(player);
+            spellSystem.UpgradeSkillTree(levelElement, levelUpgradeType);
+        }
+    }
+
+
+    private void LoadElementLevelScene(Element element)
+    {
+        switch (element.ElementType)
         {
             case Element.ElementEnum.Fire:
                 SceneManager.LoadScene("FireLevelScene");
@@ -75,32 +147,11 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void LevelComplete()
+    public bool isJustCompleted(uint id)
     {
-        LevelsCompleted++;
-
-        completedLevel = (uint)selectedLevel;
-        selectedLevel = null;
-
-        memoryLevelsCompleted.Add(completedLevel, null);
-
-        // Upgrade the player
-        GameObject player = GameObject.FindWithTag("Player");
-        if (upgradeType != UpgradeType.None)
-        {
-            player.GetComponent<SpellCastBehaviour>().UpgradeSkillTree(levelElement, upgradeType);
-        }
-
-        // Reset level-related variables
-        levelElement = null;
-
-        SceneManager.LoadScene("MemoryLevel");
+        return completedLevel == id;
     }
 
-    public uint latestCompletedLevel()
-    {
-        return completedLevel;
-    }
 
     public bool isMemoryLevelKnown(uint id)
     {
@@ -110,7 +161,8 @@ public class GameManager : MonoBehaviour
 
     public bool isMemoryLevelCompleted(uint id)
     {
-        return memoryLevelsCompleted.ContainsKey(id);
+
+        return memoryLevelsCompleted.ContainsKey(id) && !(completedLevel == id);
     }
 
 

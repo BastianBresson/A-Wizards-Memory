@@ -36,7 +36,10 @@ public class ElementLevelSelectBehaviour : MonoBehaviour
 
     private void DisableIfCompleted()
     {
-        if (GameManager.Instance.isMemoryLevelCompleted(this.id))
+        bool justCompleted = GameManager.Instance.isJustCompleted(this.id);
+        bool previouslyCompleted = GameManager.Instance.isMemoryLevelCompleted(this.id);
+
+        if (justCompleted || previouslyCompleted)
         {
             this.gameObject.SetActive(false);
         }

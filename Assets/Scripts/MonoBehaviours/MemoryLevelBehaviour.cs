@@ -32,8 +32,8 @@ public class MemoryLevelBehaviour : MonoBehaviour
         isCompleted = gameManager.isMemoryLevelCompleted(ID);
 
         bool enableMemoryLevel = isStartLevel == true || isKnown == true || isCompleted == true;
-        bool disableBridges = isCompleted == false;
-        bool isJustCompleted = gameManager.latestCompletedLevel() == this.id;
+        bool isJustCompleted = gameManager.isJustCompleted(this.id);
+        bool disableBridges = isCompleted == false && isJustCompleted == false;
 
         if (enableMemoryLevel == false)
         {
