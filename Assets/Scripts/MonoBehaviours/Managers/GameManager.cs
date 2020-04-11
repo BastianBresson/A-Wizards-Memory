@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-    // Only run ones (on game startup) due to singleton pattern and not being destroyed on scene load, see Awake()
+    // Only runs ones (on game startup) due to singleton pattern and not being destroyed on scene load, see Awake()
     private void Start()
     {
         GameObject player = FindPlayer();
@@ -74,6 +74,7 @@ public class GameManager : MonoBehaviour
 
         SceneManager.LoadScene("MemoryLevel");
     }
+
 
     private void StoreSelectedLevelVariables(uint levelID, Element element, UpgradeType upgradeType)
     {

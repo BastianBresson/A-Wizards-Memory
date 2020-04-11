@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    private int baseRoomSpawns = 0;
+
     private int roomsSpawned;
     private int roomsCleared;
 
-    private int baseRoomSpawns = 0;
+    private int levelsCompleted;
 
     [SerializeField] private GameObject startPlatformEnd;
 
@@ -15,9 +17,11 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private GameObject[] mediumRooms;
     [SerializeField] private GameObject[] largeRooms;
 
-    // Start is called before the first frame update
-    void Start()
+
+    private void Start()
     {
+        levelsCompleted = GameManager.Instance.LevelsCompleted;
+
         StartCoroutine(spawnRoomsCoroutine());
     }
 
@@ -33,47 +37,52 @@ public class LevelManager : MonoBehaviour
 
     private IEnumerator spawnRoomsCoroutine()
     {
-        int levelsCompleted = GameManager.Instance.LevelsCompleted;
-
-        int roomLvlLower = 1;
-        int roomLvlUpper = 1;
-
-        if (levelsCompleted >= 5 && levelsCompleted < 10)
-        {
-            roomLvlUpper = 2;
-        }
-        else if (levelsCompleted >= 10)
-        {
-            roomLvlLower = 1;
-            roomLvlUpper = 3;
-        }
+        int roomLvlLower = RoomLevelLowerBound();
+        int roomLvlUpper = RoomLevelUpperBound();
         
-        int additionalRoomSpawns = GameManager.Instance.LevelsCompleted / 2;
-        int roomSpawns = baseRoomSpawns + additionalRoomSpawns;
+        int roomsToSpawns = NumberOfRoomsToSpawn();
 
         GameObject end = startPlatformEnd;
 
-        for (int i = 0; i <= roomSpawns; i++)
+        for (int i = 0; i <= roomsToSpawns; i++)
         {
             yield return null;
 
-            int r = Random.Range(roomLvlLower, (roomLvlUpper + 1));
-
-            GameObject roomToSpawn = RandomRoom(r);
-
-            GameObject room = Instantiate(roomToSpawn);
-
-            roomsSpawned++;
+            int roomLevel = Random.Range(roomLvlLower, (roomLvlUpper + 1));    
+            GameObject roomToSpawn = RandomRoom(roomLevel);
+            GameObject room = SpawnRoom(roomToSpawn);
 
             RoomBehaviour roomBehaviour = room.GetComponent<RoomBehaviour>();
-
-            Vector3 distance = end.transform.position - roomBehaviour.RoomStart.transform.position;
-
+            Vector3 distance = DistanceFromEndToStart(end, roomBehaviour.RoomStart);
             room.transform.position += distance;
 
             end = roomBehaviour.RoomEnd;
         }
     }
+
+    private int RoomLevelLowerBound()
+    {
+        int lowerbound = levelsCompleted / 10;
+        lowerbound = Mathf.Clamp(lowerbound, 1, 2);
+        return lowerbound;
+    }
+
+
+    private int RoomLevelUpperBound()
+    {
+        int upperbound = levelsCompleted / 5;
+        upperbound = Mathf.Clamp(upperbound, 1, 3);
+        return upperbound;
+    }
+
+
+    private int NumberOfRoomsToSpawn()
+    {
+        int additionalRoomSpawns = GameManager.Instance.LevelsCompleted / 2;
+        int roomsToSpawns = baseRoomSpawns + additionalRoomSpawns;
+        return roomsToSpawns;
+    } 
+
 
     private GameObject RandomRoom(int roomLevel)
     {
@@ -92,5 +101,20 @@ public class LevelManager : MonoBehaviour
             default:
                 return null;
         }
+    }
+
+
+    private GameObject SpawnRoom(GameObject roomToSpawn)
+    {
+        GameObject spawnedRoom = Instantiate(roomToSpawn);
+        roomsSpawned++;
+        return spawnedRoom;
+    }
+
+
+    private Vector3 DistanceFromEndToStart(GameObject roomEnd, GameObject roomStart)
+    {
+        Vector3 distance = roomEnd.transform.position - roomStart.transform.position;
+        return distance;
     }
 }
