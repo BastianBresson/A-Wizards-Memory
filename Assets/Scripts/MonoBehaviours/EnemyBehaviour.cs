@@ -105,7 +105,7 @@ public class EnemyBehaviour : MonoBehaviour
                     break;
             }
 
-            spellCast.CastElementalProjectile(this.gameObject, spell, element, player.transform.position);
+            spellCast.StartProjectileCast(this.gameObject, spell, element, player.transform.position);
         }
     }
 

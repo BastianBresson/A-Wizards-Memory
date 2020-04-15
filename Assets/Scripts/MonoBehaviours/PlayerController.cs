@@ -13,12 +13,16 @@ public class PlayerController : MonoBehaviour
     InputMaster controls;
     CharacterController controller;
 
+    Vector3 rotateTowards;
+    Camera camera;
+
     Vector2 direction = Vector2.zero;
-    public Vector3 currentDirection = Vector3.zero;
+    Vector3 movementDirection = Vector3.zero;
 
     [Header("Movement")]
-    [SerializeField] float speed = 4f;
+    [SerializeField] float movementSpeed = 4f;
     [SerializeField] float gravity = 20f;
+    [SerializeField] float rotationSpeed = 5f;
     [Space(5)]
 
     #region Elemental Assets/Prefabs
@@ -29,15 +33,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Element waterElement;
     [Space(5)]
 
-    Element currentElement;
-
     [Header("Elemental Projectiles")]
     [SerializeField] GameObject earthProjectile;
     [SerializeField] GameObject fireProjetile;
     [SerializeField] GameObject waterProjectile;
     [Space(5)]
-
-    GameObject currentElementalProjectile;
 
     [Header("Elemental Shields")]
     [SerializeField] GameObject earthShield;
@@ -46,8 +46,11 @@ public class PlayerController : MonoBehaviour
     public GameObject activeShield;
     [Space(5)]
 
-    GameObject currentShield;
-    bool shieldActivated = false;
+    private GameObject currentShield;
+    private GameObject currentElementalProjectile;
+    private Element currentElement;
+    private bool isProjectileCasting;
+    private bool isShieldCasting;
 
     ElementLevelSelectBehaviour levelSelector;
     
@@ -71,39 +74,105 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        controller = GetComponent<CharacterController>();
-        spellCast = GetComponent<SpellCastBehaviour>();
+        SetComponents();
 
         // Sets initial projectile & element to earth
         InputEarthElement();
 
-        // Check if player should spawn other places than default location
-        Vector3 pos = GameManager.Instance.PlayerPosition;
-        Scene currentScene = SceneManager.GetActiveScene();
-
-        // TODO: This is not consistently spawing the player at the last selected selector.
-        if (currentScene.name == "MemoryLevel" && pos != null) { this.transform.position = pos; }
+        SetPlayerPositionInMemoryScene();
 
     }
 
-    // Update is called once per frame
+
     void Update()
     {
         PlayerMovement();
     }
 
+
+    private void FixedUpdate()
+    {
+        PlayerRotation();
+    }
+
+
+    private void SetComponents()
+    {
+        controller = GetComponent<CharacterController>();
+        spellCast = GetComponent<SpellCastBehaviour>();
+        camera = Camera.main;
+    }
+
+    private void SetPlayerPositionInMemoryScene()
+    {
+        Vector3 pos = GameManager.Instance.PlayerPosition;
+        Scene currentScene = SceneManager.GetActiveScene();
+
+
+        if (currentScene.name == "MemoryLevel" && pos != null) { this.transform.position = pos; }
+    }
+
+
     private void PlayerMovement()
     {
         if (controller.isGrounded == true)
         {
-            currentDirection = new Vector3(direction.x, 0.0f, direction.y);
-            currentDirection *= speed;
+            GroundMovement();
         }
 
-        currentDirection.y -= gravity * Time.deltaTime;
+        ApplyGravity();
 
-        controller.Move(currentDirection * Time.deltaTime);
+        MovePlayer();
     }
+
+
+    private void GroundMovement()
+    {
+        movementDirection = new Vector3(direction.x, 0.0f, direction.y);
+        movementDirection *= movementSpeed;
+    }
+
+
+    private void ApplyGravity()
+    {
+        movementDirection.y -= gravity * Time.deltaTime;
+    }
+
+
+    private void MovePlayer()
+    {
+        controller.Move(movementDirection * Time.deltaTime);
+    }
+
+
+    private void PlayerRotation()
+    {
+        RaycastHit hit;
+        Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out hit))
+        {
+            Quaternion rotation = RotationTowardsPoint(hit.point);
+            GraduallyRotatePlayer(rotation);            
+        }
+    }
+
+
+    private Quaternion RotationTowardsPoint(Vector3 point)
+    {
+        rotateTowards = point - this.transform.position;
+        rotateTowards.y = 0;
+
+        Quaternion toRotation = Quaternion.LookRotation(rotateTowards);
+
+        return toRotation;
+    }
+
+
+    private void GraduallyRotatePlayer(Quaternion rotation)
+    {
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+    }
+
 
     private void InputDirection(Vector2 inputDirection)
     {
@@ -112,33 +181,59 @@ public class PlayerController : MonoBehaviour
 
     private void InputCastElementalProjectile()
     {
-        if (shieldActivated == false)
+        if (isShieldCasting)
         {
+            return;
+        }
+
+
+        if (isProjectileCasting)
+        {
+            isProjectileCasting = false;
+
             RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit))
             {
-                spellCast.CastElementalProjectile(this.gameObject, currentElementalProjectile, currentElement, hit.point);
+                Vector3 hitLocation = hit.point;
+                spellCast.CastProjectileSpell(hitLocation);
             }
         }
+        else if (!isProjectileCasting)
+        {
+            isProjectileCasting =  true;
+
+            RaycastHit hit;
+            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out hit))
+            {
+                spellCast.StartProjectileCast(this.gameObject, currentElementalProjectile, currentElement, hit.point);
+            }
+        }
+
     }
 
     private void InputCastShield()
     {
-        if (shieldActivated == false)
+        if (isProjectileCasting)
         {
-            shieldActivated = true;
+            return;
+        }
+
+        if (isShieldCasting == false)
+        {
+            isShieldCasting = true;
             RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit))
             {
                 spellCast.CastElementShield(this.gameObject, currentShield, hit.point);
             }
         }
-        else if (shieldActivated)
+        else if (isShieldCasting)
         {
-            shieldActivated = false;
-            activeShield.GetComponent<ShieldBehaviour>().StopCasting();
+            isShieldCasting = false;
+            spellCast.StopCastingShield();
         }
     }
 

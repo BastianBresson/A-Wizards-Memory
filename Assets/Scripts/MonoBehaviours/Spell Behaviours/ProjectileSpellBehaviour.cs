@@ -12,9 +12,13 @@ public class ProjectileSpellBehaviour : MonoBehaviour
 
     private float scaleTime = 0.5f;
 
-    Vector3 startPosition;
+    private Vector3 startPosition;
+
     public Vector3 direction = Vector3.zero;
     public Vector3 EndPosition = Vector3.zero;
+
+    private Rigidbody rigidBody;
+
 
     // Start is called before the first frame update
     void Start()
@@ -26,18 +30,19 @@ public class ProjectileSpellBehaviour : MonoBehaviour
         speed = projectileSpell.Speed;
         damage = projectileSpell.Damage;
 
+        rigidBody = this.gameObject.GetComponent<Rigidbody>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
         DestroyOnMaxRange();
+    }
 
-        // Movement
-        if (direction != Vector3.zero)
-        {
-            transform.Translate(direction * speed * Time.deltaTime, Space.World);
-        }
+    public void CastProjectile(Vector3 direction)
+    {
+        rigidBody.AddForce(direction * speed);
     }
 
     public void ScaleProjectile(float multiplier)

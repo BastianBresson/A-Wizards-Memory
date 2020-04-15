@@ -15,4 +15,4 @@ MonoBehaviour:
   Damage: 3
   Range: 20
   Element: {fileID: 11400000, guid: 27b3793e670d27f47a327cd75bd70cc2, type: 2}
-  Speed: 9
+  Speed: 500
