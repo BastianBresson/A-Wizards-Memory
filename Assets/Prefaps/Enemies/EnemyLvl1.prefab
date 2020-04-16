@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 2690265376047337196}
   - component: {fileID: 5183018575992366871}
   - component: {fileID: 4439834575515848499}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: EnemyLvl1
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -155,6 +155,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 141c27a3953acea449fecb0ea7c265b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillTree: {fileID: 0}
+  SpellCastPoint: {fileID: 0}
   spellSpawnOffset: 1.2
 --- !u!114 &5183018575992366871
 MonoBehaviour:
@@ -201,4 +203,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 141c27a3953acea449fecb0ea7c265b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillTree: {fileID: 0}
+  SpellCastPoint: {fileID: 0}
   spellSpawnOffset: 1.2

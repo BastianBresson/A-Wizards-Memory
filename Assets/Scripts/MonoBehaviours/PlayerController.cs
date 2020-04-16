@@ -63,11 +63,15 @@ public class PlayerController : MonoBehaviour
         controls = new InputMaster();
         controls.Player.Move.performed += context => InputDirection(context.ReadValue<Vector2>());
 
+        controls.Player.CastElementalProjectile.performed += _ => InputCastElementalProjectilePerformed();
+        controls.Player.CastElementalProjectile.canceled += _ => InputCastElementalProjectileCanceled();
+        controls.Player.CastElementShield.performed += _ => InputCastShieldPerformed();
+        controls.Player.CastElementShield.canceled += _ => InputCastShieldCanceled();
+
         controls.Player.EarthElement.performed += _ => InputEarthElement();
         controls.Player.FireElement.performed += _ => InputFireElement();
         controls.Player.WaterElement.performed += _ => InputWaterElement();
-        controls.Player.CastElementalProjectile.performed += _ => InputCastElementalProjectile();
-        controls.Player.CastElementShield.performed += _ => InputCastShield();
+
         controls.Player.Select.performed += _ => InputSelect();
     }
 
@@ -103,13 +107,16 @@ public class PlayerController : MonoBehaviour
         camera = Camera.main;
     }
 
+
     private void SetPlayerPositionInMemoryScene()
-    {
-        Vector3 pos = GameManager.Instance.PlayerPosition;
+    {    
         Scene currentScene = SceneManager.GetActiveScene();
 
-
-        if (currentScene.name == "MemoryLevel" && pos != null) { this.transform.position = pos; }
+        if (currentScene.name == "MemoryLevel")
+        {
+            Vector3 pos = GameManager.Instance.PlayerPosition;
+            this.transform.position = pos;
+        }
     }
 
 
@@ -179,71 +186,59 @@ public class PlayerController : MonoBehaviour
         direction = inputDirection;
     }
 
-    private void InputCastElementalProjectile()
+
+    private void InputCastElementalProjectilePerformed()
     {
-        if (isShieldCasting)
-        {
-            return;
-        }
-
-
-        if (isProjectileCasting)
-        {
-            isProjectileCasting = false;
-
-            RaycastHit hit;
-            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit))
-            {
-                Vector3 hitLocation = hit.point;
-                spellCast.CastProjectileSpell(hitLocation);
-            }
-        }
-        else if (!isProjectileCasting)
+        if (!isProjectileCasting && !isShieldCasting)
         {
             isProjectileCasting =  true;
 
-            RaycastHit hit;
-            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit))
-            {
-                spellCast.StartProjectileCast(this.gameObject, currentElementalProjectile, currentElement, hit.point);
-            }
+            spellCast.StartProjectileCast(currentElementalProjectile, currentElement);
+        }
+    }
+
+
+    private void InputCastElementalProjectileCanceled()
+    {
+        if (isProjectileCasting && !isShieldCasting)
+        {
+            isProjectileCasting = false;
+
+            spellCast.CastProjectileSpell();
+        }
+    }
+
+
+    private void InputCastShieldPerformed()
+    {
+        if (!isShieldCasting && !isProjectileCasting)
+        {
+            isShieldCasting = true;
+
+            spellCast.CastElementShield(currentShield);
         }
 
     }
 
-    private void InputCastShield()
-    {
-        if (isProjectileCasting)
-        {
-            return;
-        }
 
-        if (isShieldCasting == false)
-        {
-            isShieldCasting = true;
-            RaycastHit hit;
-            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit))
-            {
-                spellCast.CastElementShield(this.gameObject, currentShield, hit.point);
-            }
-        }
-        else if (isShieldCasting)
+    private void InputCastShieldCanceled()
+    {
+        if (isShieldCasting && !isProjectileCasting)
         {
             isShieldCasting = false;
+
             spellCast.StopCastingShield();
         }
     }
 
-    //TODO check if element is available
+
     private void InputEarthElement()
     {
         currentElement = earthElement;
         currentElementalProjectile = earthProjectile;
         currentShield = earthShield;
     }
+
 
     private void InputFireElement()
     {
@@ -252,12 +247,14 @@ public class PlayerController : MonoBehaviour
         currentShield = fireShield;
     }
 
+
     private void InputWaterElement()
     {
         currentElement = waterElement;
         currentElementalProjectile = waterProjectile;
         currentShield = waterShield;
     }
+
 
     private void InputSelect()
     {
@@ -267,6 +264,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
     public void SelectCollision(bool entered, SelectBehaviour selector)
     {
         canSelect = entered;
@@ -275,10 +273,12 @@ public class PlayerController : MonoBehaviour
 
     }
 
+
     private void OnEnable()
     {
         controls.Enable();
     }
+
 
     private void OnDisable()
     {

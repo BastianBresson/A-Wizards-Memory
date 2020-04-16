@@ -21,7 +21,7 @@ public class SpellCastBehaviour : MonoBehaviour
 
     }
 
-    public void StartProjectileCast(GameObject caster, GameObject projectile, Element element, Vector3 rayHitLocation)
+    public void StartProjectileCast(GameObject projectile, Element element)
     {
         int projectilesLvl = 0;
         int projectileMultiplierLvl = 0;
@@ -53,8 +53,6 @@ public class SpellCastBehaviour : MonoBehaviour
         float multiplier = 1f + (projectileMultiplierLvl * skillTree.MultiplierValue);
 
         StartCoroutine(ChargingProjectileSpellRoutine(projectile, multiplier));
-
-        //pawnProjectile(caster, projectile, direction, projectileMultiplierLvl);
 
         // For each level above 0:
         // spawn two projectiles with direction turned to the left and right.
@@ -105,22 +103,7 @@ public class SpellCastBehaviour : MonoBehaviour
     }
 
 
-    private void SpawnProjectile(GameObject caster, GameObject projectile, Vector3 direction, int multiplierLvl)
-    {
-        Vector3 spawnOffset = direction * spellSpawnOffset;
-        Vector3 spawnPosition = caster.transform.position + spawnOffset;
-        spawnPosition.y -= 0.5f;
-        ProjectileSpellBehaviour spell = Instantiate(projectile, spawnPosition, Quaternion.LookRotation(direction)).GetComponent<ProjectileSpellBehaviour>();
-        spell.direction = direction;
-
-        if (multiplierLvl > 0)
-        {
-            float multiplier = 1 + multiplierLvl * skillTree.MultiplierValue;
-            spell.GetComponent<ProjectileSpellBehaviour>().ScaleProjectile(multiplier);
-        }
-    }
-
-    public void CastProjectileSpell(Vector3 rayHitLocation)
+    public void CastProjectileSpell()
     {
         if (castingProjectile == null)
         {
@@ -138,9 +121,8 @@ public class SpellCastBehaviour : MonoBehaviour
     }
 
 
-    public void CastElementShield(GameObject caster, GameObject shield, Vector3 rayHitLocation)
+    public void CastElementShield(GameObject shield)
     {
-
         Vector3 direction = SpellCastPoint.transform.forward;
         direction.y = 0;
 
@@ -151,6 +133,8 @@ public class SpellCastBehaviour : MonoBehaviour
     public void StopCastingShield()
     {
         castedShield.GetComponent<ShieldBehaviour>().StopCasting();
+
+        castedShield = null;
     }
 
 

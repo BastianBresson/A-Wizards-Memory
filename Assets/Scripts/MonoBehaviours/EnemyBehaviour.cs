@@ -105,7 +105,7 @@ public class EnemyBehaviour : MonoBehaviour
                     break;
             }
 
-            spellCast.StartProjectileCast(this.gameObject, spell, element, player.transform.position);
+            //spellCast.StartProjectileCast(this.gameObject, spell, element, player.transform.position);
         }
     }
 
@@ -113,7 +113,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         yield return new WaitForSeconds(Random.Range(reactionTimeMin, reactionTimeMax));
 
-        spellCast.CastElementShield(this.gameObject, shield, player.transform.position);
+        //spellCast.CastElementShield(this.gameObject, shield, player.transform.position);
 
         yield return new WaitForSeconds(Random.Range(1f, 2f));
         shieldActivated = false;

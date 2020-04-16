@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 7685998310770097092}
   - component: {fileID: 4303739842892636636}
   - component: {fileID: 1762470770185482398}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: EnemyLvl3
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -161,6 +161,7 @@ MonoBehaviour:
   maxCD: 5
   reactionTimeMin: 0.2
   reactionTimeMax: 0.5
+  range: 15
   earthProjectile: {fileID: 3856541540133483651, guid: 1c5f137687b5ea7479058cd2b58bab27,
     type: 3}
   fireProjetile: {fileID: 6617806643939794394, guid: 9c49835a88f8eb945be4045e28fdf410,
@@ -186,5 +187,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 141c27a3953acea449fecb0ea7c265b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  angle: 30
+  skillTree: {fileID: 0}
+  SpellCastPoint: {fileID: 0}
   spellSpawnOffset: 2.5

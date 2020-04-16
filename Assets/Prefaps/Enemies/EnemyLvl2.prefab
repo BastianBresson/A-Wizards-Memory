@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 5716012291876457710}
   - component: {fileID: 5366410983966783311}
   - component: {fileID: 1894265360221547714}
-  m_Layer: 2
+  m_Layer: 0
   m_Name: EnemyLvl2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -187,4 +187,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 141c27a3953acea449fecb0ea7c265b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillTree: {fileID: 0}
+  SpellCastPoint: {fileID: 0}
   spellSpawnOffset: 2
