@@ -159,7 +159,9 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             Quaternion rotation = RotationTowardsPoint(hit.point);
-            GraduallyRotatePlayer(rotation);            
+            GraduallyRotatePlayer(rotation);
+
+            spellCast.UpdateSpellCastRotation(hit.point);
         }
     }
 

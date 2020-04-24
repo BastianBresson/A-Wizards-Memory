@@ -79,6 +79,14 @@ public class SpellCastBehaviour : MonoBehaviour
     }
 
 
+    public void UpdateSpellCastRotation(Vector3 raycastHit)
+    {
+        Vector3 postionToLookAt = raycastHit;
+        postionToLookAt.y = this.transform.position.y;
+        SpellCastPoint.transform.LookAt(postionToLookAt);
+    }
+
+
     public void CastProjectileSpell()
     {
         if (castingProjectile == null)
