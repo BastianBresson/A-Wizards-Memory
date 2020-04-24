@@ -13,13 +13,13 @@ public class RoomBehaviour : MonoBehaviour
     [Space(5)]
     public GameObject RoomStart;
     public GameObject RoomEnd;
-    [SerializeField] GameObject roomBlocker;
-    [SerializeField] bool disableBlockerFromStart;
+    [SerializeField] GameObject roomBlocker = default;
+    [SerializeField] bool disableBlockerFromStart  = default;
 
     [Space(5)]
-    [SerializeField] private GameObject easyEnemyPrefap;
-    [SerializeField] private GameObject mediumEnemyPrefap;
-    [SerializeField] private GameObject hardEnemyPrefap;
+    [SerializeField] private GameObject easyEnemyPrefap = default;
+    [SerializeField] private GameObject mediumEnemyPrefap = default;
+    [SerializeField] private GameObject hardEnemyPrefap = default;
 
     [Space(5)]
     [SerializeField] private List<GameObject> enemySpawns = new List<GameObject>();

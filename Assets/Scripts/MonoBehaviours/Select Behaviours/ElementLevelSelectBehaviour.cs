@@ -9,7 +9,7 @@ public class ElementLevelSelectBehaviour : MonoBehaviour
 
     private SelectBehaviour selector;
 
-    [SerializeField] LevelSelect levelSelect;
+    [SerializeField] LevelSelect levelSelect = default;
     private Element element;
     private UpgradeType upgradeType;
     private Material material;

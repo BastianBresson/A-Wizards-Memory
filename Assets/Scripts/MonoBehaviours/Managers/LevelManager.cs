@@ -11,11 +11,11 @@ public class LevelManager : MonoBehaviour
 
     private int levelsCompleted;
 
-    [SerializeField] private GameObject startPlatformEnd;
+    [SerializeField] private GameObject startPlatformEnd = default;
 
-    [SerializeField] private GameObject[] smallRooms;
-    [SerializeField] private GameObject[] mediumRooms;
-    [SerializeField] private GameObject[] largeRooms;
+    [SerializeField] private GameObject[] smallRooms = default;
+    [SerializeField] private GameObject[] mediumRooms = default;
+    [SerializeField] private GameObject[] largeRooms = default;
 
 
     private void Start()

@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     CharacterController controller;
 
     Vector3 rotateTowards;
-    Camera camera;
+    Camera mainCamera;
 
     Vector2 direction = Vector2.zero;
     Vector3 movementDirection = Vector3.zero;
@@ -28,21 +28,21 @@ public class PlayerController : MonoBehaviour
     #region Elemental Assets/Prefabs
 
     [Header("Elements")]
-    [SerializeField] Element earthElement;  
-    [SerializeField] Element fireElement;
-    [SerializeField] Element waterElement;
+    [SerializeField] Element earthElement = default;  
+    [SerializeField] Element fireElement = default;
+    [SerializeField] Element waterElement = default;
     [Space(5)]
 
     [Header("Elemental Projectiles")]
-    [SerializeField] GameObject earthProjectile;
-    [SerializeField] GameObject fireProjetile;
-    [SerializeField] GameObject waterProjectile;
+    [SerializeField] GameObject earthProjectile = default;
+    [SerializeField] GameObject fireProjetile = default;
+    [SerializeField] GameObject waterProjectile = default;
     [Space(5)]
 
     [Header("Elemental Shields")]
-    [SerializeField] GameObject earthShield;
-    [SerializeField] GameObject fireShield;
-    [SerializeField] GameObject waterShield;
+    [SerializeField] GameObject earthShield = default;
+    [SerializeField] GameObject fireShield = default;
+    [SerializeField] GameObject waterShield = default;
     public GameObject activeShield;
     [Space(5)]
 
@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         spellCast = GetComponent<SpellCastBehaviour>();
-        camera = Camera.main;
+        mainCamera = Camera.main;
     }
 
 
@@ -155,7 +155,7 @@ public class PlayerController : MonoBehaviour
     private void PlayerRotation()
     {
         RaycastHit hit;
-        Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit))
         {
             Quaternion rotation = RotationTowardsPoint(hit.point);

@@ -6,7 +6,7 @@ public class EnemyBehaviour : MonoBehaviour
 {
     private bool alive = true;
 
-    [SerializeField] private SkillTree[] possibleSkillTrees;
+    [SerializeField] private SkillTree[] possibleSkillTrees = default;
     private SkillTree skillTree;
     [Space(5)]
 
@@ -20,17 +20,17 @@ public class EnemyBehaviour : MonoBehaviour
     [Space(5)]
 
     [Header("Elemental Projectiles")]
-    [SerializeField] private GameObject earthProjectile;
-    [SerializeField] private GameObject fireProjetile;
-    [SerializeField] private GameObject waterProjectile;
+    [SerializeField] private GameObject earthProjectile = default;
+    [SerializeField] private GameObject fireProjetile = default;
+    [SerializeField] private GameObject waterProjectile = default;
     [Space(5)]
 
     GameObject currentElementalProjectile;
 
     [Header("Elemental Shields")]
-    [SerializeField] private GameObject earthShield;
-    [SerializeField] private GameObject fireShield;
-    [SerializeField] private GameObject waterShield;
+    [SerializeField] private GameObject earthShield = default;
+    [SerializeField] private GameObject fireShield = default;
+    [SerializeField] private GameObject waterShield = default;
     public GameObject activeShield;
     [Space(5)]
 

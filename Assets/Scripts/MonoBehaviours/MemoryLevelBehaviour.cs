@@ -12,9 +12,9 @@ public class MemoryLevelBehaviour : MonoBehaviour
     [SerializeField] private uint id;
     public uint ID { get { return id; } private set { id = value; } }
 
-    [SerializeField] private GameObject[] bridges;
-    [SerializeField] bool isStartLevel;
-    [SerializeField] bool isKnownFromStart;
+    [SerializeField] private GameObject[] bridges = default;
+    [SerializeField] bool isStartLevel = default;
+    [SerializeField] bool isKnownFromStart = default;
 
     GameManager gameManager;
 

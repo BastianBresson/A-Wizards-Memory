@@ -6,9 +6,9 @@ public class BridgeBehaviour : MonoBehaviour
 {
     private SelectBehaviour selector;
 
-    [SerializeField] private GameObject bridge;
-    [SerializeField] private GameObject selectCollider;
-    [SerializeField] private GameObject nextMemoryLevel;
+    [SerializeField] private GameObject bridge = default;
+    [SerializeField] private GameObject selectCollider = default;
+    [SerializeField] private GameObject nextMemoryLevel = default;
 
     [SerializeField] private uint id;
     public uint ID { get { return id; } private set { id = value; } }
