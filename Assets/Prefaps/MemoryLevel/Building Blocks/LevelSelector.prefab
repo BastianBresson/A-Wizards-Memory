@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6182704369882429544}
   m_Layer: 0
   m_Name: LevelSelector
-  m_TagString: Untagged
+  m_TagString: LevelSelector
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -120,4 +120,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474d31c38b3815b4fa29752669cffd09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  id: 0
   levelSelect: {fileID: 11400000, guid: e5a54c9e9ad35244eb2989e674e8b632, type: 2}

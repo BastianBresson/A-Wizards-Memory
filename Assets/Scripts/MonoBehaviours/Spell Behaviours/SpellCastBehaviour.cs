@@ -81,7 +81,11 @@ public class SpellCastBehaviour : MonoBehaviour
 
             for (int i = 0; i < castingProjectiles.Count; i++)
             {
-                castingProjectiles[i].transform.localScale = Vector3.Lerp(projectileOriginalScales[i], projectileTargetScales[i], currentTime / scaleTime);
+                if (castingProjectiles[i] != null)
+                {
+                    castingProjectiles[i].transform.localScale = Vector3.Lerp(projectileOriginalScales[i], projectileTargetScales[i], currentTime / scaleTime);
+
+                }
             }
 
             currentTime += Time.deltaTime;
@@ -101,8 +105,12 @@ public class SpellCastBehaviour : MonoBehaviour
             Vector3 direction = SpellCastPoint.transform.forward;
             direction.y = 0;
 
-            castingProjectiles[0].GetComponent<ProjectileSpellBehaviour>().CastProjectile(direction, projectileOriginalScales[0]);
-            castingProjectiles[0].transform.parent = null;
+            if (castingProjectiles[0] != null)
+            {
+                castingProjectiles[0].GetComponent<ProjectileSpellBehaviour>().CastProjectile(direction, projectileOriginalScales[0]);
+                castingProjectiles[0].transform.parent = null;
+            }
+
 
             if (castingProjectiles.Count > 1)
             {

@@ -8,7 +8,7 @@ public class BridgeSelectBehaviour : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            GetComponentInParent<BridgeBehaviour>().onPlayerEnteredTrigger(other.GetComponent<PlayerController>());
+            GetComponentInParent<BridgeBehaviour>().OnPlayerEnteredTrigger(other.GetComponent<PlayerController>());
         }
     }
 
@@ -16,7 +16,7 @@ public class BridgeSelectBehaviour : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            GetComponentInParent<BridgeBehaviour>().onPlayerExitedTrigger(other.GetComponent<PlayerController>());
+            GetComponentInParent<BridgeBehaviour>().OnPlayerExitedTrigger(other.GetComponent<PlayerController>());
         }
     }
 }

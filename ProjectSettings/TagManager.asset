@@ -13,6 +13,7 @@ TagManager:
   - LevelStart
   - LevelEnd
   - StartPlatform
+  - LevelSelector
   layers:
   - Default
   - TransparentFX

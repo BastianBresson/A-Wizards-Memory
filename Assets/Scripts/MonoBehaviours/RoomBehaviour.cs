@@ -93,8 +93,8 @@ public class RoomBehaviour : MonoBehaviour
 
     private int NumberOfEnemiesToSpawn()
     {
-        int lowerbound = 1 + (levelsCompleted / 5);
-        int upperbound = 3 + (levelsCompleted / 5);
+        int lowerbound = 1;// + (levelsCompleted / 5);
+        int upperbound = 1;// + (levelsCompleted / 5);
 
         lowerbound = Mathf.Clamp(lowerbound, 0, enemySpawns.Count());
         upperbound = Mathf.Clamp(upperbound, lowerbound, enemySpawns.Count());

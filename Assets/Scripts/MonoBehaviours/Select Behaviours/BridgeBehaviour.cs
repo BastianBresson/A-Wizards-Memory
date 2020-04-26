@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class BridgeBehaviour : MonoBehaviour
 {
+    [SerializeField] private Material selectedBridgeMat = default;
+    [SerializeField] private Material nonSelectedBridgeMat = default;
+
     private SelectBehaviour selector;
 
     [SerializeField] private GameObject bridge = default;
@@ -13,48 +16,79 @@ public class BridgeBehaviour : MonoBehaviour
     [SerializeField] private uint id;
     public uint ID { get { return id; } private set { id = value; } }
 
-    // Start is called before the first frame update
-    void Start()
+
+    private void Start()
     {
-        selector = addSelector();
+        DisableBridgeCollider();
+
+        selector = AddSelector();
         selector.OnSelect = Selected;
 
         selectCollider.SetActive(false);
     }
 
+
     public void EnableSelection()
     {
-        bridge.SetActive(false);
         StartCoroutine(activateSelector());
     }
 
-    public void onPlayerEnteredTrigger(PlayerController playerController)
+
+    public void NotSelected()
+    {
+        selectCollider.SetActive(false);
+    }
+
+
+    public void OnPlayerEnteredTrigger(PlayerController playerController)
     {
         selector.NotifyPlayerController(true, playerController);
     }
 
-    public void onPlayerExitedTrigger(PlayerController playerController)
+
+    public void OnPlayerExitedTrigger(PlayerController playerController)
     {
         selector.NotifyPlayerController(false, playerController);
     }
 
-    private SelectBehaviour addSelector()
+
+    private void DisableBridgeCollider()
+    {
+        bridge.GetComponent<MeshCollider>().enabled = false;
+    }
+
+
+    private void EnableBridgeCollider()
+    {
+        bridge.GetComponent<MeshCollider>().enabled = true;
+    }
+
+    private SelectBehaviour AddSelector()
     {
         return this.gameObject.AddComponent<SelectBehaviour>();
     }
 
+    public void PreviouslySelected()
+    {
+        bridge.GetComponent<MeshRenderer>().material = selectedBridgeMat;
+    }
+
+
     private void Selected()
     {
+        EnableBridgeCollider();
+
+        bridge.GetComponent<MeshRenderer>().material = selectedBridgeMat; 
+
         nextMemoryLevel.SetActive(true);
-        uint nextMemoryLevelID = nextMemoryLevel.GetComponent<MemoryLevelBehaviour>().ID;
 
-        GetComponentInParent<MemoryLevelBehaviour>().onBridgeSelected(this.id, nextMemoryLevelID);
+        GetComponentInParent<MemoryLevelBehaviour>().OnBridgeSelected(this.id);
 
-        bridge.SetActive(true);
         selectCollider.SetActive(false);
     }
 
-    IEnumerator activateSelector()
+
+    private IEnumerator activateSelector()
     {
         yield return new WaitForSeconds(.5f);
         selectCollider.SetActive(true);

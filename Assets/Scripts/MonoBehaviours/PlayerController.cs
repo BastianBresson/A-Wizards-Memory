@@ -51,8 +51,6 @@ public class PlayerController : MonoBehaviour
     private Element currentElement;
     private bool isProjectileCasting;
     private bool isShieldCasting;
-
-    ElementLevelSelectBehaviour levelSelector;
     
     #endregion
 

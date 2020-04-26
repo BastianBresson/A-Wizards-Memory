@@ -76,6 +76,12 @@ public class GameManager : MonoBehaviour
     }
 
 
+    public uint GetCompletedLevel()
+    {
+        return completedLevel;
+    }
+
+
     private void StoreSelectedLevelVariables(uint levelID, Element element, UpgradeType upgradeType)
     {
         selectedLevel = levelID;
@@ -144,56 +150,6 @@ public class GameManager : MonoBehaviour
                 break;
             default:
                 break;
-        }
-    }
-
-
-    public bool isJustCompleted(uint id)
-    {
-        return completedLevel == id;
-    }
-
-
-    public bool isMemoryLevelKnown(uint id)
-    {
-        return memoryLevelsKnown.Contains(id);
-    }
-
-
-    public bool isMemoryLevelCompleted(uint id)
-    {
-
-        return memoryLevelsCompleted.ContainsKey(id) && !(completedLevel == id);
-    }
-
-
-    public uint? MemoryLevelChosenBridge(uint id)
-    {
-        if (memoryLevelsCompleted.ContainsKey(id))
-        {
-            return memoryLevelsCompleted[id];
-        }
-        else return null;
-    }
-
-
-    public void SelectedBridge(uint id, uint? bridge)
-    {
-        memoryLevelsCompleted[id] = bridge;
-    }
-
-
-    public void AddKnownMemoryLevel(uint id)
-    {
-        memoryLevelsKnown.Add(id);
-    }
-
-
-    public void AddStartKnownMemoryLevel(uint id)
-    {
-        if (memoryLevelsKnown.Contains(id) == false)
-        {
-            memoryLevelsKnown.Add(id);
         }
     }
 }

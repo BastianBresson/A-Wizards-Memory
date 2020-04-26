@@ -1,66 +1,118 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MemoryLevelBehaviour : MonoBehaviour
 {
-    private bool isKnown;
-    private bool isCompleted;
+    private static Dictionary<uint, uint> memoryLevelsCompleted = new Dictionary<uint, uint>();
+    private static List<uint> memoryLevelsKnown = new List<uint>(); // TODO: Save/load dependant
 
-    private uint? selectedBridgeID;
+    private LevelSelectBehaviour levelSelector;
+
+    private bool isCompleted;
+    private bool isJustCompleted;
 
     [SerializeField] private uint id;
     public uint ID { get { return id; } private set { id = value; } }
 
     [SerializeField] private GameObject[] bridges = default;
-    [SerializeField] bool isStartLevel = default;
     [SerializeField] bool isKnownFromStart = default;
 
-    GameManager gameManager;
 
-    // Start is called before the first frame update
     void Start()
     {
-        gameManager = GameManager.Instance;
+        isJustCompleted = GameManager.Instance.GetCompletedLevel() == id;
 
-        if (isKnownFromStart == true)
-        {
-            gameManager.AddStartKnownMemoryLevel(this.id);
-        }
+        isCompleted = isMemoryLevelCompleted();
 
-        isKnown = gameManager.isMemoryLevelKnown(ID);
-        isCompleted = gameManager.isMemoryLevelCompleted(ID);
+        levelSelector = FindLevelSelector();
 
-        bool enableMemoryLevel = isStartLevel == true || isKnown == true || isCompleted == true;
-        bool isJustCompleted = gameManager.isJustCompleted(this.id);
-        bool disableBridges = isCompleted == false && isJustCompleted == false;
+        DetermineStartState();
+    }
 
-        if (enableMemoryLevel == false)
+
+    private void DetermineStartState()
+    {
+        if (isJustCompleted)
         {
-            DisableAllBridges();
-            this.gameObject.SetActive(false);
-        }
-        else if (disableBridges == true)
-        {
-            DisableAllBridges();
-        }
-        else if (isJustCompleted == true)
-        {
+            SetLevelSelectorInactive();
             enableBridgeSelection();
         }
         else if (isCompleted)
         {
-            uint chosenBridge = (uint)gameManager.MemoryLevelChosenBridge(this.id);
-            DisableNonSelectedBridges(chosenBridge);
+            SetLevelSelectorInactive();
+            uint selectedBridge = GetSelectedBridge();
+            NotifySelectedBridge(selectedBridge);
+        }
+        else if (isKnownFromStart) // special case for memorylevels that should be active from start.
+        {
+            SetAllBridgesInactive();
+        }
+        else
+        {
+            SetAllBridgesInactive(); // bridges should be disabled when this is set as active by a bridgge
+            SetMemoryLevelInactive();
         }
     }
 
-    public void onBridgeSelected(uint bridgeID, uint nextMemoryLevel)
+
+    private LevelSelectBehaviour FindLevelSelector()
     {
-        GameManager.Instance.SelectedBridge(this.id, bridgeID);
-        GameManager.Instance.AddKnownMemoryLevel(nextMemoryLevel);
-        DisableNonSelectedBridges(bridgeID);
+        LevelSelectBehaviour levelSelector = GetComponentInChildren<LevelSelectBehaviour>();
+        return levelSelector;
     }
+
+
+    private void SetLevelSelectorInactive()
+    {
+        levelSelector.gameObject.SetActive(false);
+    }
+
+
+    private void SetMemoryLevelInactive()
+    {
+        this.gameObject.SetActive(false);
+    }
+
+
+    private uint GetSelectedBridge()
+    {
+        uint selectedBridgeID = memoryLevelsCompleted[this.id];
+        return selectedBridgeID;
+    }
+
+
+    public bool isMemoryLevelCompleted()
+    {
+        return memoryLevelsCompleted.ContainsKey(id) && !isJustCompleted;
+    }
+
+
+    public uint? MemoryLevelChosenBridge()
+    {
+        if (memoryLevelsCompleted.ContainsKey(id))
+        {
+            return memoryLevelsCompleted[id];
+        }
+        else return null;
+    }
+
+
+    public void OnBridgeSelected(uint bridgeID)
+    {
+        memoryLevelsCompleted.Add(this.id, bridgeID);
+
+        foreach (GameObject bridge in bridges)
+        {
+            BridgeBehaviour bridgeBehaviour = bridge.GetComponent<BridgeBehaviour>();
+            if (bridgeID != bridgeBehaviour.ID)
+            {
+                bridgeBehaviour.NotSelected();
+            }
+        }
+    }
+
 
     private void enableBridgeSelection()
     {
@@ -71,20 +123,21 @@ public class MemoryLevelBehaviour : MonoBehaviour
     }
 
 
-    private void DisableNonSelectedBridges(uint id)
+    private void NotifySelectedBridge(uint id)
     {
         foreach (GameObject bridge in bridges)
         {
-            uint bridgeID = bridge.GetComponent<BridgeBehaviour>().ID;
+            BridgeBehaviour bridgeBehaviour = bridge.GetComponent<BridgeBehaviour>();
+            uint bridgeID = bridgeBehaviour.ID;
 
-            if (bridgeID != id)
+            if (bridgeID == id)
             {
-                bridge.SetActive(false);
+                bridgeBehaviour.PreviouslySelected();
             }
         }
     }
 
-    private void DisableAllBridges()
+    private void SetAllBridgesInactive()
     {
         if (bridges.Length > 0 && bridges != null)
         {
