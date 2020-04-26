@@ -167,16 +167,6 @@ public class SpellCastBehaviour : MonoBehaviour
     }
 
 
-    public void UpdateSpellCastRotation(Vector3 raycastHit)
-    {
-        Vector3 postionToLookAt = raycastHit;
-        postionToLookAt.y = SpellCastPoint.transform.position.y;
-        SpellCastPoint.transform.LookAt(postionToLookAt);
-        
-    }
-
-
-
     // Upgrade the Player's skilltree. The skilltree is a Scriptable Object instance and persists through scenes
     public void UpgradeSkillTree(Element element, UpgradeType upgradeType)
     {
