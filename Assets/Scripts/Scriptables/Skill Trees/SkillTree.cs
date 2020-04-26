@@ -24,7 +24,7 @@ public class SkillTree : ScriptableObject
             case Element.ElementEnum.Normal:
                 break;
             case Element.ElementEnum.Fire:
-                projectilesLvl = FireMultiplerLvl;
+                projectilesLvl = FireProjectilesLvl;
                 projectileMultiplierLvl = FireMultiplerLvl;
                 break;
             case Element.ElementEnum.Water:

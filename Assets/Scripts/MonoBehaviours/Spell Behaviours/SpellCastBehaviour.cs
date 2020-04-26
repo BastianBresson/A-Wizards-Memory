@@ -5,17 +5,19 @@ using UnityEngine;
 
 public class SpellCastBehaviour : MonoBehaviour
 {
-    private GameObject castedShield;
-    private GameObject castingProjectile;
-
     [SerializeField] SkillTree skillTree;
 
     [SerializeField] private GameObject SpellCastPoint = default;
+
+    private GameObject castingShield;
+
+    private List<GameObject> castingProjectiles = new List<GameObject>();
+    private List<Vector3> projectileOriginalScales = new List<Vector3>();
+    private List<Vector3> projectileTargetScales = new List<Vector3>();
+
     private bool isChargingProjectile;
 
-    private float angle = 45f; 
-    [SerializeField] private float spellSpawnOffset = 1.2f;
-
+    private float angle = 15f; 
 
 
     public void StartProjectileCast(GameObject projectile, Element element)
@@ -28,80 +30,108 @@ public class SpellCastBehaviour : MonoBehaviour
         
         float multiplier = 1f + (projectileMultiplierLvl * skillTree.MultiplierValue);
 
-        StartCoroutine(ChargingProjectileSpellRoutine(projectile, multiplier));
-
-        // For each level above 0:
-        // spawn two projectiles with direction turned to the left and right.
-        // Creates a bigger and bigger cone for each level of spawned projectiles
-        // TODO: angle should be smaller. Requires spells not to collide with each other
-        /*if (projectilesLvl > 0)
-        {
-            for (int i = 1; i <= projectilesLvl; i++)
-            {
-                Vector3 direction1 = Quaternion.Euler(0, angle * i, 0) * direction;
-                Vector3 direction2 = Quaternion.Euler(0, -1 * (angle * i), 0) * direction;
-                SpawnProjectile(caster, projectile, direction1, projectileMultiplierLvl);
-                SpawnProjectile(caster, projectile, direction2, projectileMultiplierLvl);
-            }
-        }*/
+        StartCoroutine(ChargingProjectileSpellRoutine(projectile, projectilesLvl, multiplier));
     }
 
 
-    IEnumerator ChargingProjectileSpellRoutine(GameObject projetileToCast, float multiplier)
+    IEnumerator ChargingProjectileSpellRoutine(GameObject projetileToCast, int projectilesLvl, float multiplier)
     {
         isChargingProjectile = true;
 
         Vector3 direction = SpellCastPoint.transform.forward;
         direction.y = 0;
 
-        castingProjectile = Instantiate(projetileToCast, SpellCastPoint.transform.position, Quaternion.LookRotation(direction), SpellCastPoint.transform);
+        castingProjectiles.Add(Instantiate(projetileToCast, SpellCastPoint.transform.position, Quaternion.LookRotation(direction), SpellCastPoint.transform));
 
-        Vector3 originalScale = castingProjectile.transform.localScale;
-        Vector3 targetScale = originalScale * multiplier;
+        if (projectilesLvl > 0)
+        {
+            Vector3 right = SpellCastPoint.transform.right;
+            Vector3 forward = SpellCastPoint.transform.forward * 0.5f;
+            Vector3 offset1 = (right - forward) * 0.75f;
+            Vector3 offset2 = ((right * -1) - forward) * 0.75f;
+
+            for (int i = 1; i <= projectilesLvl; i++)
+            {
+                Vector3 direction1 = Quaternion.Euler(0, angle * i, 0) * direction;
+                Vector3 direction2 = Quaternion.Euler(0, -1 * (angle * i), 0) * direction;
+                castingProjectiles.Add(Instantiate(projetileToCast, SpellCastPoint.transform.position + (i * offset1), Quaternion.LookRotation(direction1), SpellCastPoint.transform));
+                castingProjectiles.Add(Instantiate(projetileToCast, SpellCastPoint.transform.position + (i * offset2), Quaternion.LookRotation(direction2), SpellCastPoint.transform));
+            }
+        }
+
+
+        Vector3 startScale = new Vector3(0.1f, 0.1f, 0.1f);
+
+        foreach (GameObject projectile in castingProjectiles)
+        {
+            Vector3 currentScale = projectile.transform.localScale;
+            projectileTargetScales.Add(currentScale * multiplier);
+            projectile.transform.localScale = startScale;
+            projectileOriginalScales.Add(projectile.transform.localScale);
+            
+        }
+
 
         float scaleTime = .5f;
         float currentTime = 0.0f;
 
-        Vector3 startScale = new Vector3(0.1f, 0.1f, 0.1f);
-        castingProjectile.transform.localScale = startScale;
 
-        while (isChargingProjectile && castingProjectile != null)
+        while (currentTime <= scaleTime && castingProjectiles != null)
         {
-            if (currentTime <= scaleTime)
-            {
-                castingProjectile.transform.localScale = Vector3.Lerp(startScale, targetScale, currentTime / scaleTime);
 
-                currentTime += Time.deltaTime;
+            for (int i = 0; i < castingProjectiles.Count; i++)
+            {
+                castingProjectiles[i].transform.localScale = Vector3.Lerp(projectileOriginalScales[i], projectileTargetScales[i], currentTime / scaleTime);
             }
+
+            currentTime += Time.deltaTime;
 
             yield return null;
         }
     }
 
 
-    public void UpdateSpellCastRotation(Vector3 raycastHit)
-    {
-        Vector3 postionToLookAt = raycastHit;
-        postionToLookAt.y = this.transform.position.y;
-        SpellCastPoint.transform.LookAt(postionToLookAt);
-    }
-
-
     public void CastProjectileSpell()
     {
-        if (castingProjectile == null)
+        if (castingProjectiles != null || castingProjectiles.Count != 0)
+        {
+            isChargingProjectile = false;
+
+
+            Vector3 direction = SpellCastPoint.transform.forward;
+            direction.y = 0;
+
+            castingProjectiles[0].GetComponent<ProjectileSpellBehaviour>().CastProjectile(direction, projectileOriginalScales[0]);
+            castingProjectiles[0].transform.parent = null;
+
+            if (castingProjectiles.Count > 1)
+            {
+                int angleIncrease = 1;
+                for (int i = 1; i < castingProjectiles.Count; i+=2)
+                {
+                    Vector3 direction1 = Quaternion.Euler(0, angle * angleIncrease, 0) * direction;
+                    Vector3 direction2 = Quaternion.Euler(0, -1 * (angle * angleIncrease), 0) * direction;
+
+                    castingProjectiles[i].GetComponent<ProjectileSpellBehaviour>().CastProjectile(direction1, projectileOriginalScales[0]);
+                    castingProjectiles[i].transform.parent = null;
+
+                    castingProjectiles[i+1].GetComponent<ProjectileSpellBehaviour>().CastProjectile(direction2, projectileOriginalScales[0]);
+                    castingProjectiles[i+1].transform.parent = null;
+
+                    angleIncrease++;
+                }
+            }
+
+            
+        }
+        else
         {
             return;
         }
-        isChargingProjectile = false;
 
-        Vector3 direction = SpellCastPoint.transform.forward;
-        direction.y = 0;
-
-        castingProjectile.GetComponent<ProjectileSpellBehaviour>().CastProjectile(direction);
-
-        castingProjectile.transform.parent = null;
-
+        castingProjectiles.Clear();
+        projectileOriginalScales.Clear();
+        projectileTargetScales.Clear();
     }
 
 
@@ -110,16 +140,33 @@ public class SpellCastBehaviour : MonoBehaviour
         Vector3 direction = SpellCastPoint.transform.forward;
         direction.y = 0;
 
-        castedShield = Instantiate(shield, SpellCastPoint.transform.position, Quaternion.LookRotation(direction), SpellCastPoint.transform);
+        castingShield = Instantiate(shield, SpellCastPoint.transform.position, Quaternion.LookRotation(direction), SpellCastPoint.transform);
     }
 
 
     public void StopCastingShield()
     {
-        castedShield.GetComponent<ShieldBehaviour>().StopCasting();
+        if (castingShield != null)
+        {
+            castingShield.GetComponent<ShieldBehaviour>().StopCasting();
 
-        castedShield = null;
+            castingShield = null;
+        }
+        else
+        {
+            return;
+        }
     }
+
+
+    public void UpdateSpellCastRotation(Vector3 raycastHit)
+    {
+        Vector3 postionToLookAt = raycastHit;
+        postionToLookAt.y = SpellCastPoint.transform.position.y;
+        SpellCastPoint.transform.LookAt(postionToLookAt);
+        
+    }
+
 
 
     // Upgrade the Player's skilltree. The skilltree is a Scriptable Object instance and persists through scenes
@@ -145,7 +192,7 @@ public class SpellCastBehaviour : MonoBehaviour
 
     public void ClearSkillTree()
     {
-        skillTree.ClearTree();
+        //skillTree.ClearTree();
     }
 
 }

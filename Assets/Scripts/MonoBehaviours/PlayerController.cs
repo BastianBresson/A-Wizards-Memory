@@ -151,18 +151,20 @@ public class PlayerController : MonoBehaviour
         controller.Move(movementDirection * Time.deltaTime);
     }
 
-
+    private RaycastHit debugHit;
     private void PlayerRotation()
     {
         RaycastHit hit;
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.SphereCast(ray, 0.2f,  out hit))
         {
+            debugHit = hit;
             Quaternion rotation = RotationTowardsPoint(hit.point);
             GraduallyRotatePlayer(rotation);
 
             spellCast.UpdateSpellCastRotation(hit.point);
         }
+        
     }
 
 
@@ -285,5 +287,10 @@ public class PlayerController : MonoBehaviour
     private void OnDisable()
     {
         controls.Disable();
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawSphere(debugHit.point, 0.2f);
     }
 }

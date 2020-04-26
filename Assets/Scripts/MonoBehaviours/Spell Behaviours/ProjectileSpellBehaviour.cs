@@ -8,16 +8,15 @@ public class ProjectileSpellBehaviour : MonoBehaviour
     
     private float range;
     private float speed;
-    private float damage;
+    public float damage;
 
     private float scaleTime = 0.5f;
 
     private Vector3 startPosition;
 
-    public Vector3 direction = Vector3.zero;
-    public Vector3 EndPosition = Vector3.zero;
-
     private Rigidbody rigidBody;
+
+    private Vector3 startScale;
 
 
     // Start is called before the first frame update
@@ -25,7 +24,6 @@ public class ProjectileSpellBehaviour : MonoBehaviour
     {
         NullChecks();
 
-        startPosition = transform.position;
         range = projectileSpell.Range;
         speed = projectileSpell.Speed;
         damage = projectileSpell.Damage;
@@ -40,16 +38,18 @@ public class ProjectileSpellBehaviour : MonoBehaviour
         DestroyOnMaxRange();
     }
 
-    public void CastProjectile(Vector3 direction)
+    public void CastProjectile(Vector3 direction, Vector3 originalScale)
     {
+        startPosition = this.transform.position;
         rigidBody.AddForce(direction * speed);
+
+        float scale = this.transform.localScale.magnitude / originalScale.magnitude;
+        float scalingFactor = 0.25f * Mathf.Pow(3, scale);
+        scalingFactor = (float)System.Math.Round(scalingFactor, 1);
+        damage *= scalingFactor;
+        rigidBody.mass *= scalingFactor;
     }
 
-    public void ScaleProjectile(float multiplier)
-    {
-        damage *= multiplier;
-        StartCoroutine(ScaleOverTimeCoroutine(scaleTime, multiplier));
-    }
 
     void DestroyOnMaxRange()
     {
@@ -67,22 +67,6 @@ public class ProjectileSpellBehaviour : MonoBehaviour
         }
     }
 
-    IEnumerator ScaleOverTimeCoroutine(float time, float multiplier)
-    {
-        Vector3 originalScale = this.transform.localScale;
-        Vector3 destinationScale = originalScale * multiplier;
-
-        float currentTime = 0.0f;
-
-        while (currentTime <= time)
-        {
-            currentTime += Time.deltaTime;
-
-            this.transform.localScale = Vector3.Lerp(originalScale, destinationScale, currentTime / time);
-
-            yield return null;
-        }
-    }
 
     void NullChecks()
     {
