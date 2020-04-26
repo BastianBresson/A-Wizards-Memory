@@ -1552,9 +1552,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b31fbb1665e2664dbf580635b6991f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
+  movementSpeed: 4
   gravity: 20
-  rotation: 5
+  rotationSpeed: 5
+  spellCastPoint: {fileID: 7706694245746078240}
   earthElement: {fileID: 11400000, guid: 28760bfc0d4fd044e82bfdfd79fe49af, type: 2}
   fireElement: {fileID: 11400000, guid: d0d9fd77e9e3d8945a696d6b3ef442c7, type: 2}
   waterElement: {fileID: 11400000, guid: 27b3793e670d27f47a327cd75bd70cc2, type: 2}
@@ -1570,7 +1571,6 @@ MonoBehaviour:
     type: 3}
   waterShield: {fileID: 2068907826184734625, guid: c0b9a2675d22a594f961db4ba7ab9dda,
     type: 3}
-  activeShield: {fileID: 0}
 --- !u!114 &2862603210924257358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1599,7 +1599,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skillTree: {fileID: 11400000, guid: 37ed762f29f5ae942b3c75fa66fa532a, type: 2}
   SpellCastPoint: {fileID: 7706694245746078240}
-  spellSpawnOffset: 1.2
 --- !u!1 &6383730353555523151
 GameObject:
   m_ObjectHideFlags: 0

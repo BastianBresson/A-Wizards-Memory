@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,40 +11,41 @@ public class PlayerController : MonoBehaviour
     private SelectBehaviour selector;
 
     // Movment
-    InputMaster controls;
-    CharacterController controller;
+    private InputMaster controls;
+    private CharacterController controller;
 
-    Vector3 rotateTowards;
-    Camera mainCamera;
+    private Vector3 rotateTowards;
+    private Camera mainCamera;
 
-    Vector2 direction = Vector2.zero;
-    Vector3 movementDirection = Vector3.zero;
+    private Vector2 direction = Vector2.zero;
+    private Vector3 movementDirection = Vector3.zero;
 
     [Header("Movement")]
-    [SerializeField] float movementSpeed = 4f;
-    [SerializeField] float gravity = 20f;
-    [SerializeField] float rotationSpeed = 5f;
+    [SerializeField] private float movementSpeed = 4f;
+    [SerializeField] private float gravity = 20f;
+    [SerializeField] private float rotationSpeed = 5f;
     [Space(5)]
+
+    [SerializeField] private GameObject spellCastPoint = default;
 
     #region Elemental Assets/Prefabs
 
     [Header("Elements")]
-    [SerializeField] Element earthElement = default;  
-    [SerializeField] Element fireElement = default;
-    [SerializeField] Element waterElement = default;
+    [SerializeField] private Element earthElement = default;  
+    [SerializeField] private Element fireElement = default;
+    [SerializeField] private Element waterElement = default;
     [Space(5)]
 
     [Header("Elemental Projectiles")]
-    [SerializeField] GameObject earthProjectile = default;
-    [SerializeField] GameObject fireProjetile = default;
-    [SerializeField] GameObject waterProjectile = default;
+    [SerializeField] private GameObject earthProjectile = default;
+    [SerializeField] private GameObject fireProjetile = default;
+    [SerializeField] private GameObject waterProjectile = default;
     [Space(5)]
 
     [Header("Elemental Shields")]
-    [SerializeField] GameObject earthShield = default;
-    [SerializeField] GameObject fireShield = default;
-    [SerializeField] GameObject waterShield = default;
-    public GameObject activeShield;
+    [SerializeField] private GameObject earthShield = default;
+    [SerializeField] private GameObject fireShield = default;
+    [SerializeField] private GameObject waterShield = default;
     [Space(5)]
 
     private GameObject currentShield;
@@ -158,9 +160,10 @@ public class PlayerController : MonoBehaviour
         {
             debugHit = hit;
             Quaternion rotation = RotationTowardsPoint(hit.point);
+
             GraduallyRotatePlayer(rotation);
 
-            spellCast.UpdateSpellCastRotation(hit.point);
+            GraduallyRotateSpellPoint(rotation);
         }
         
     }
@@ -180,6 +183,12 @@ public class PlayerController : MonoBehaviour
     private void GraduallyRotatePlayer(Quaternion rotation)
     {
         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+    }
+
+
+    private void GraduallyRotateSpellPoint(Quaternion rotation)
+    {
+        spellCastPoint.transform.rotation = Quaternion.Slerp(spellCastPoint.transform.rotation, rotation, (rotationSpeed * 1.5f) * Time.deltaTime);
     }
 
 
