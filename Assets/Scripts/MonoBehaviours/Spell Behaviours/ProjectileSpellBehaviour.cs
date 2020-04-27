@@ -5,7 +5,8 @@ using UnityEngine;
 public class ProjectileSpellBehaviour : MonoBehaviour
 {
     public ProjectileSpell projectileSpell;
-    
+
+    private bool hasBeenCast;
     private float range;
     private float speed;
     public float damage;
@@ -41,6 +42,8 @@ public class ProjectileSpellBehaviour : MonoBehaviour
         this.transform.parent = null;
         startPosition = this.transform.position;
 
+        hasBeenCast = true;
+
         rigidBody.AddForce(direction * speed);
 
         float scale = this.transform.localScale.magnitude / originalScale.magnitude;
@@ -55,7 +58,7 @@ public class ProjectileSpellBehaviour : MonoBehaviour
 
     void DestroyOnMaxRange()
     {
-        if (Vector3.Distance(startPosition, transform.position) > range)
+        if (hasBeenCast &&  Vector3.Distance(startPosition, transform.position) > range)
         {
             Destroy(this.gameObject);
         }

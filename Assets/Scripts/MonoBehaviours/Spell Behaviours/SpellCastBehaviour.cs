@@ -188,6 +188,10 @@ public class SpellCastBehaviour : MonoBehaviour
 
     private void castProjectile(int index, Vector3 direction)
     {
+        if (index >= castingProjectiles.Count)
+        {
+            return;
+        }
         if (castingProjectiles[index] != null)
         {
             castingProjectiles[index].GetComponent<ProjectileSpellBehaviour>().CastProjectile(direction, startScale);
