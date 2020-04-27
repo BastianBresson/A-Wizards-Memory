@@ -17,6 +17,7 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] private float reactionTimeMin = 0.2f;
     [SerializeField] private float reactionTimeMax = 0.5f;
     [SerializeField] private float range = 15f;
+    [SerializeField] private float rotationSpeed = 5f;
     [Space(5)]
 
     [Header("Elemental Projectiles")]
@@ -25,24 +26,45 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] private GameObject waterProjectile = default;
     [Space(5)]
 
-    GameObject currentElementalProjectile;
-
     [Header("Elemental Shields")]
     [SerializeField] private GameObject earthShield = default;
     [SerializeField] private GameObject fireShield = default;
     [SerializeField] private GameObject waterShield = default;
-    public GameObject activeShield;
     [Space(5)]
 
-    bool shieldActivated = false;
-    bool playerInRange = false;
+    [SerializeField] private GameObject spellCastPoint = default;
+
+    private bool isShieldCasting;
+    private bool isProjectileCharging;
+    private bool isPlayerInRange;
 
     private SpellCastBehaviour spellCast;
+    private float projectileChargeTime;
 
-    GameObject player;
+    private Vector3 playerPosition;
+    private Quaternion rotation;
 
-    // Start is called before the first frame update
-    void Start()
+    private GameObject player;
+
+
+    private void Start()
+    {
+        SetupSpellcast();
+
+        player = GameObject.Find("Player");
+
+        StartCoroutine(SpellCastCoroutine());
+    }
+
+    private void Update()
+    {
+        CheckIfPlayerIsRange();
+        RotateMe();
+        RotateSpellCastPoint();
+    }
+
+
+    private void SetupSpellcast()
     {
         int r = Random.Range(0, possibleSkillTrees.Length);
         skillTree = possibleSkillTrees[r];
@@ -51,27 +73,9 @@ public class EnemyBehaviour : MonoBehaviour
 
         spellCast = GetComponent<SpellCastBehaviour>();
         spellCast.SetEnemySkillTree(skillTree);
-
-        player = GameObject.Find("Player");
-
-        StartCoroutine(SpellCastCoroutine());
+        projectileChargeTime = spellCast.ScaleTime;
     }
 
-    void Update()
-    {
-        
-        if (player != null && Vector3.Distance(this.transform.position, player.transform.position) < range)
-        {
-            playerInRange = true;
-            Vector3 playerPosition = player.transform.position;
-            playerPosition.y = this.transform.position.y; // avoid tilting of this is taller or smaller than player
-            this.transform.LookAt(playerPosition);
-        }
-        else
-        {
-            playerInRange = false;
-        }
-    }
 
     private IEnumerator SpellCastCoroutine()
     {
@@ -81,7 +85,7 @@ public class EnemyBehaviour : MonoBehaviour
             yield return new WaitForSeconds(Random.Range(minCD, maxCD));
                      
             // Don't cast spell if are currently casting a shield
-            if (activeShield == true || playerInRange == false) continue;
+            if (isShieldCasting || !isPlayerInRange) continue;
 
             int r = Random.Range(0, availableElements.Length);
             Element element = availableElements[r];
@@ -105,26 +109,94 @@ public class EnemyBehaviour : MonoBehaviour
                     break;
             }
 
-            //spellCast.StartProjectileCast(this.gameObject, spell, element, player.transform.position);
+            isProjectileCharging = true;
+            spellCast.StartProjectileCast(spell, element);
+            float chargeTime = Random.Range(0.2f, projectileChargeTime + projectileChargeTime * 0.25f);
+            yield return new WaitForSeconds(chargeTime);
+            spellCast.CastProjectileSpell();
         }
     }
+
+
+    private bool CanCast()
+    {
+        return !isProjectileCharging && !isShieldCasting;
+    }
+    
+
+    private void CheckIfPlayerIsRange()
+    {
+        if (player != null && Vector3.Distance(this.transform.position, player.transform.position) < range)
+        {
+            isPlayerInRange = true;
+            playerPosition = player.transform.position;
+            UpdateRotation();
+        }
+        else
+        {
+            isPlayerInRange = false;
+        }
+    }
+
+
+    private void UpdateRotation()
+    {
+        rotation = rotationTowardsPoint(playerPosition);
+    }
+
+
+    private void RotateMe()
+    {
+        if (playerPosition != null)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+        }
+        
+    }
+
+
+    private void RotateSpellCastPoint()
+    {
+        if (playerPosition != null)
+        {
+            spellCastPoint.transform.rotation = Quaternion.Slerp(spellCastPoint.transform.rotation, rotation, (rotationSpeed * 1.5f) * Time.deltaTime);
+        }
+    }
+
+
+    private Quaternion rotationTowardsPoint(Vector3 point)
+    {
+        Vector3 rotateTowards = point - this.transform.position;
+        rotateTowards.y = 0;
+
+        Quaternion toRotation = Quaternion.LookRotation(rotateTowards);
+
+        return toRotation;
+    }
+
 
     private IEnumerator shieldCastCoroutine(GameObject shield)
     {
         yield return new WaitForSeconds(Random.Range(reactionTimeMin, reactionTimeMax));
 
-        //spellCast.CastElementShield(this.gameObject, shield, player.transform.position);
+        spellCast.CastElementShield(shield);
 
         yield return new WaitForSeconds(Random.Range(1f, 2f));
-        shieldActivated = false;
-        Destroy(activeShield);
+        spellCast.StopCastingShield();
+        isShieldCasting = false;
+    }
+
+
+    public void ProjectileDetected()
+    {
 
     }
+
 
     private void OnTriggerEnter(Collider other)
     {
         // Only cast shield if we are not already casting
-        if (shieldActivated == true) return; 
+        if (isShieldCasting == true) return; 
 
         // Check if we can counter the spell, if we can, then cast shield.
         if (other.tag == "PlayerElementalProjectile")
@@ -164,16 +236,9 @@ public class EnemyBehaviour : MonoBehaviour
                         break;
                 }
 
-                shieldActivated = true;
+                isShieldCasting = true;
                 StartCoroutine(shieldCastCoroutine(shield));
             }
-        }
-    }
-    private void OnDestroy()
-    {
-        if (activeShield != null)
-        {
-            Destroy(activeShield.gameObject);
         }
     }
 }

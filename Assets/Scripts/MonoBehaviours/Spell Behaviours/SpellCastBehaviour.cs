@@ -23,6 +23,7 @@ public class SpellCastBehaviour : MonoBehaviour
     float scaleTime = .5f;
     float currentScaleTime = 0.0f;
 
+    public float ScaleTime { get { return scaleTime; } private set { scaleTime = value; } }
 
     private void Update()
     {

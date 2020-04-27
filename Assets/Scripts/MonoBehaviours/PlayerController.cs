@@ -14,7 +14,6 @@ public class PlayerController : MonoBehaviour
     private InputMaster controls;
     private CharacterController controller;
 
-    private Vector3 rotateTowards;
     private Camera mainCamera;
 
     private Vector2 direction = Vector2.zero;
@@ -172,7 +171,7 @@ public class PlayerController : MonoBehaviour
 
     private Quaternion RotationTowardsPoint(Vector3 point)
     {
-        rotateTowards = point - this.transform.position;
+        Vector3 rotateTowards = point - this.transform.position;
         rotateTowards.y = 0;
 
         Quaternion toRotation = Quaternion.LookRotation(rotateTowards);
