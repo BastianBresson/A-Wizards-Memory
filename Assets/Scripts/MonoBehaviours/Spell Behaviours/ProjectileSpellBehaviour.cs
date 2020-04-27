@@ -10,8 +10,6 @@ public class ProjectileSpellBehaviour : MonoBehaviour
     private float speed;
     public float damage;
 
-    private float scaleTime = 0.5f;
-
     private Vector3 startPosition;
 
     private Rigidbody rigidBody;
@@ -40,7 +38,9 @@ public class ProjectileSpellBehaviour : MonoBehaviour
 
     public void CastProjectile(Vector3 direction, Vector3 originalScale)
     {
+        this.transform.parent = null;
         startPosition = this.transform.position;
+
         rigidBody.AddForce(direction * speed);
 
         float scale = this.transform.localScale.magnitude / originalScale.magnitude;
@@ -48,6 +48,8 @@ public class ProjectileSpellBehaviour : MonoBehaviour
         scalingFactor = (float)System.Math.Round(scalingFactor, 1);
         damage *= scalingFactor;
         rigidBody.mass *= scalingFactor;
+
+
     }
 
 

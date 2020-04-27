@@ -53,10 +53,11 @@ public class PlayerController : MonoBehaviour
     private Element currentElement;
     private bool isProjectileCasting;
     private bool isShieldCasting;
-    
+   
     #endregion
 
     SpellCastBehaviour spellCast;
+
 
     private void Awake()
     {
@@ -203,7 +204,7 @@ public class PlayerController : MonoBehaviour
         if (!isProjectileCasting && !isShieldCasting)
         {
             isProjectileCasting =  true;
-
+            
             spellCast.StartProjectileCast(currentElementalProjectile, currentElement);
         }
     }
