@@ -5,7 +5,6 @@ using UnityEngine;
 public class BridgeBehaviour : MonoBehaviour
 {
     [SerializeField] private Material selectedBridgeMat = default;
-    [SerializeField] private Material nonSelectedBridgeMat = default;
 
     private SelectBehaviour selector;
 
