@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     #region Singleton
+    
     static GameManager _instance;
 
     public static GameManager Instance
@@ -14,7 +15,7 @@ public class GameManager : MonoBehaviour
         {
             if (_instance == null)
             {
-                GameObject go = new GameObject("GameManager");
+                GameObject go = new GameObject();
                 _instance = go.AddComponent<GameManager>();
             }
             return _instance;
@@ -22,12 +23,9 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
+    
     private uint? selectedLevel = null;
     private uint completedLevel;
-
-    // Stores completed levels, and their chosen bridge/path
-    private Dictionary<uint, uint?> memoryLevelsCompleted = new Dictionary<uint, uint?>();
-    private List<uint> memoryLevelsKnown = new List<uint>(); // Save/load dependant
 
     private Element levelElement;
     private UpgradeType levelUpgradeType;
@@ -65,7 +63,6 @@ public class GameManager : MonoBehaviour
         LevelsCompleted++;
 
         completedLevel = (uint)selectedLevel;
-        memoryLevelsCompleted.Add(completedLevel, null);
 
         GameObject player = FindPlayer();
         UpgradePlayer(player);

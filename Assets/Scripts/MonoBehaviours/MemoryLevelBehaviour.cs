@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class MemoryLevelBehaviour : MonoBehaviour
 {
-    private static Dictionary<uint, uint> memoryLevelsCompleted = new Dictionary<uint, uint>();
-    private static List<uint> memoryLevelsKnown = new List<uint>(); // TODO: Save/load dependant
+    private static Dictionary<uint, uint> memoryLevelsCompletedThisRun = new Dictionary<uint, uint>();
 
     private LevelSelectBehaviour levelSelector;
 
-    private bool isCompleted;
+    private bool isCompletedThisRun;
     private bool isJustCompleted;
+    private bool isPreviouslyCompleted;
 
     [SerializeField] private uint id;
     public uint ID { get { return id; } private set { id = value; } }
@@ -24,7 +24,9 @@ public class MemoryLevelBehaviour : MonoBehaviour
     {
         isJustCompleted = GameManager.Instance.GetCompletedLevel() == id;
 
-        isCompleted = isMemoryLevelCompleted();
+        isCompletedThisRun = IsMemoryLevelCompletedThisRun();
+
+        isPreviouslyCompleted = IsCompletedInPreviousRun();
 
         levelSelector = FindLevelSelector();
 
@@ -38,12 +40,17 @@ public class MemoryLevelBehaviour : MonoBehaviour
         {
             SetLevelSelectorInactive();
             enableBridgeSelection();
+            SaveSystem.CompletedNewLevel(id);
         }
-        else if (isCompleted)
+        else if (isCompletedThisRun)
         {
             SetLevelSelectorInactive();
             uint selectedBridge = GetSelectedBridge();
             NotifySelectedBridge(selectedBridge);
+        }
+        else if (isPreviouslyCompleted) // MemoryLevel and Bridges should stay visible
+        {
+            return; 
         }
         else if (isKnownFromStart) // special case for memorylevels that should be active from start.
         {
@@ -78,22 +85,28 @@ public class MemoryLevelBehaviour : MonoBehaviour
 
     private uint GetSelectedBridge()
     {
-        uint selectedBridgeID = memoryLevelsCompleted[this.id];
+        uint selectedBridgeID = memoryLevelsCompletedThisRun[this.id];
         return selectedBridgeID;
     }
 
 
-    public bool isMemoryLevelCompleted()
+    private bool IsMemoryLevelCompletedThisRun()
     {
-        return memoryLevelsCompleted.ContainsKey(id) && !isJustCompleted;
+        return memoryLevelsCompletedThisRun.ContainsKey(id) && !isJustCompleted;
     }
 
 
-    public uint? MemoryLevelChosenBridge()
+    private bool IsCompletedInPreviousRun()
     {
-        if (memoryLevelsCompleted.ContainsKey(id))
+        return SaveSystem.IsLevelCompleted(id);
+    }
+
+
+    private uint? MemoryLevelChosenBridge()
+    {
+        if (memoryLevelsCompletedThisRun.ContainsKey(id))
         {
-            return memoryLevelsCompleted[id];
+            return memoryLevelsCompletedThisRun[id];
         }
         else return null;
     }
@@ -101,7 +114,7 @@ public class MemoryLevelBehaviour : MonoBehaviour
 
     public void OnBridgeSelected(uint bridgeID)
     {
-        memoryLevelsCompleted.Add(this.id, bridgeID);
+        memoryLevelsCompletedThisRun.Add(this.id, bridgeID);
 
         foreach (GameObject bridge in bridges)
         {
