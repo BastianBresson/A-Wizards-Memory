@@ -47,6 +47,25 @@ public class GameManager : MonoBehaviour
     }
 
 
+    public void PlayerDied()
+    {
+        ResetLevelVariables();
+
+        PlayerPosition = Vector3.zero + Vector3.up * 6;
+        GameObject player = FindPlayer();
+        ResetPlayer(player);
+
+        StartCoroutine(PlayerDiedCoroutine());
+    }
+
+    private IEnumerator PlayerDiedCoroutine()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        SceneManager.LoadScene("MemoryLevel");
+    }
+
+
     public void LoadLevelScene(uint id, Element element, UpgradeType upgradeType)
     {
         StoreSelectedLevelVariables(id, element, upgradeType);

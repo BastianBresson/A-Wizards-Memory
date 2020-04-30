@@ -9,7 +9,7 @@ public class PlayerHealth : Health
     {
         if (currentHealth <= 0)
         {
-            // TODO: alert game managet of death.
+            GameManager.Instance.PlayerDied();
             Destroy(obj.gameObject);
         }
     }
