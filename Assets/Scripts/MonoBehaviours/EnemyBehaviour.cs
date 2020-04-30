@@ -83,26 +83,50 @@ public class EnemyBehaviour : MonoBehaviour
         {
             yield return new WaitForSeconds(Random.Range(minCD, maxCD));
                      
-            // Don't cast spell if are currently casting a shield
-            if (isShieldCasting || !isPlayerInRange) continue;
+            if (!CanCast()) continue;
 
-            int r = Random.Range(0, availableElements.Length);
-            Element element = availableElements[r];
 
-            GameObject spell = element.ElementalSpellPrefab; 
+            Element element = ChooseRandomElement();
 
-            isProjectileCharging = true;
-            spellCast.StartProjectileCast(spell, element);
-            float chargeTime = Random.Range(0.2f, projectileChargeTime + projectileChargeTime * 0.25f);
-            yield return new WaitForSeconds(chargeTime);
+            StartCastintElementProjectile(element);
+
+            float chargeTime = ChooseRandomChargeTime();
+
+            yield return new WaitForSeconds(chargeTime); // wait out charge time, then cast
+
+            isProjectileCharging = false;
             spellCast.CastProjectileSpell();
+            
         }
     }
 
 
     private bool CanCast()
     {
-        return !isProjectileCharging && !isShieldCasting;
+        return !isProjectileCharging && !isShieldCasting && isPlayerInRange;
+    }
+
+
+    private Element ChooseRandomElement()
+    {
+        int r = Random.Range(0, availableElements.Length);
+        return availableElements[r];
+    }
+
+
+    private void StartCastintElementProjectile(Element element)
+    {
+        GameObject spell = element.ElementalSpellPrefab;
+
+        isProjectileCharging = true;
+        spellCast.StartProjectileCast(spell, element);
+    }
+
+
+    private float ChooseRandomChargeTime()
+    {
+        float chargeTime = Random.Range(0.2f, projectileChargeTime + projectileChargeTime * 0.25f);
+        return chargeTime;
     }
     
 
@@ -164,13 +188,8 @@ public class EnemyBehaviour : MonoBehaviour
         spellCast.CastElementShield(shield);
 
         yield return new WaitForSeconds(Random.Range(1f, 2f));
-        spellCast.StopCastingShield();
         isShieldCasting = false;
-    }
-
-
-    public void ProjectileDetected()
-    {
+        spellCast.StopCastingShield();
 
     }
 
@@ -180,31 +199,62 @@ public class EnemyBehaviour : MonoBehaviour
         // Only cast shield if we are not already casting
         if (isShieldCasting || isProjectileCharging) return; 
 
-        // Check if we can counter the spell, if we can, then cast shield.
         if (other.tag == "PlayerElementalProjectile")
         {
-            Element enemyElement = other.GetComponent<ProjectileSpellBehaviour>().projectileSpell.Element;
+            PlayerProjectileDetected(other.gameObject);
+        }
+    }
 
-            bool counterElementAvailable = false;
-            Element counterElement = availableElements[0];
 
-            foreach (Element element in availableElements)
+    private void PlayerProjectileDetected(GameObject projectile)
+    {
+        Element enemyElement = GetPlayerProjectileElement(projectile);
+
+        Element counterElement = GetCounterElementIfAvailable(enemyElement);
+
+        if (counterElement != null)
+        {
+            CastShield(counterElement);
+        }
+    }
+
+
+    private Element GetPlayerProjectileElement(GameObject projectile)
+    {
+        Element projectileElement = projectile.GetComponent<ProjectileSpellBehaviour>().projectileSpell.Element;
+        return projectileElement;
+    }
+
+
+    private Element GetCounterElementIfAvailable(Element elementToCounter)
+    {
+        Element counterElement = null;
+        bool canCounter = false;
+        foreach (Element element in availableElements)
+        {
+            if (elementToCounter.Countered(element.ElementType, elementToCounter.ElementType) == true)
             {
-                if (enemyElement.Countered(element.ElementType, enemyElement.ElementType) == true)
-                {
-                    counterElementAvailable = true;
-                    counterElement = element;
-                    break;
-                }
-            }
-
-            if (counterElementAvailable == true)
-            {
-                GameObject shield = counterElement.ElementalShieldPrefab;
-
-                isShieldCasting = true;
-                StartCoroutine(shieldCastCoroutine(shield));
+                canCounter = true;
+                counterElement = element;
+                break;
             }
         }
+
+        if (canCounter)
+        {
+            return counterElement;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    private void CastShield(Element element)
+    {
+        GameObject shield = element.ElementalShieldPrefab;
+
+        isShieldCasting = true;
+        StartCoroutine(shieldCastCoroutine(shield));
     }
 }
