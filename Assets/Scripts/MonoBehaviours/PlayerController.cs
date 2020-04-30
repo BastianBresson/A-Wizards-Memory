@@ -27,33 +27,16 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private GameObject spellCastPoint = default;
 
-    #region Elemental Assets/Prefabs
-
     [Header("Elements")]
     [SerializeField] private Element earthElement = default;  
     [SerializeField] private Element fireElement = default;
     [SerializeField] private Element waterElement = default;
     [Space(5)]
 
-    [Header("Elemental Projectiles")]
-    [SerializeField] private GameObject earthProjectile = default;
-    [SerializeField] private GameObject fireProjetile = default;
-    [SerializeField] private GameObject waterProjectile = default;
-    [Space(5)]
 
-    [Header("Elemental Shields")]
-    [SerializeField] private GameObject earthShield = default;
-    [SerializeField] private GameObject fireShield = default;
-    [SerializeField] private GameObject waterShield = default;
-    [Space(5)]
-
-    private GameObject currentShield;
-    private GameObject currentElementalProjectile;
     private Element currentElement;
     private bool isProjectileCasting;
     private bool isShieldCasting;
-   
-    #endregion
 
     SpellCastBehaviour spellCast;
 
@@ -204,7 +187,7 @@ public class PlayerController : MonoBehaviour
         {
             isProjectileCasting =  true;
             
-            spellCast.StartProjectileCast(currentElementalProjectile, currentElement);
+            spellCast.StartProjectileCast(currentElement.ElementalSpellPrefab, currentElement);
         }
     }
 
@@ -226,7 +209,7 @@ public class PlayerController : MonoBehaviour
         {
             isShieldCasting = true;
 
-            spellCast.CastElementShield(currentShield);
+            spellCast.CastElementShield(currentElement.ElementalShieldPrefab);
         }
 
     }
@@ -246,24 +229,18 @@ public class PlayerController : MonoBehaviour
     private void InputEarthElement()
     {
         currentElement = earthElement;
-        currentElementalProjectile = earthProjectile;
-        currentShield = earthShield;
     }
 
 
     private void InputFireElement()
     {
         currentElement = fireElement;
-        currentElementalProjectile = fireProjetile;
-        currentShield = fireShield;
     }
 
 
     private void InputWaterElement()
     {
         currentElement = waterElement;
-        currentElementalProjectile = waterProjectile;
-        currentShield = waterShield;
     }
 
 

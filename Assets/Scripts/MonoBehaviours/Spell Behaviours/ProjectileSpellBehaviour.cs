@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -30,6 +31,7 @@ public class ProjectileSpellBehaviour : MonoBehaviour
         rigidBody = this.gameObject.GetComponent<Rigidbody>();
 
     }
+
 
     // Update is called once per frame
     void Update()

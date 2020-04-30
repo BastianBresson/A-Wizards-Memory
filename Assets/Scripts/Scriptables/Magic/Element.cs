@@ -8,6 +8,9 @@ public class Element : ScriptableObject
 
     public ElementEnum ElementType;
 
+    public GameObject ElementalSpellPrefab;
+    public GameObject ElementalShieldPrefab;
+
     /// <summary>
     /// Checks if <c>b</c> is countered by <c>a</c>
     /// </summary>
@@ -17,5 +20,4 @@ public class Element : ScriptableObject
                 a == ElementEnum.Earth  &&  b == ElementEnum.Water ||
                 a == ElementEnum.Fire  &&  b == ElementEnum.Earth); 
     }
-
 }

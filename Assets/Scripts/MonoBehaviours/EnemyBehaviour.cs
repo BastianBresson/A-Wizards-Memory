@@ -12,6 +12,7 @@ public class EnemyBehaviour : MonoBehaviour
 
     private Element[] availableElements;
 
+    [Header("Behaviour Values")]
     [SerializeField] private float minCD = 2f;
     [SerializeField] private float maxCD = 5f;
     [SerializeField] private float reactionTimeMin = 0.2f;
@@ -20,17 +21,15 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] private float rotationSpeed = 5f;
     [Space(5)]
 
-    [Header("Elemental Projectiles")]
-    [SerializeField] private GameObject earthProjectile = default;
-    [SerializeField] private GameObject fireProjetile = default;
-    [SerializeField] private GameObject waterProjectile = default;
+
+    [Header("Elements")]
+
+    [SerializeField] private Element earthElement;
+    [SerializeField] private Element fireElement;
+    [SerializeField] private Element waterElement;
+
     [Space(5)]
 
-    [Header("Elemental Shields")]
-    [SerializeField] private GameObject earthShield = default;
-    [SerializeField] private GameObject fireShield = default;
-    [SerializeField] private GameObject waterShield = default;
-    [Space(5)]
 
     [SerializeField] private GameObject spellCastPoint = default;
 
@@ -90,24 +89,7 @@ public class EnemyBehaviour : MonoBehaviour
             int r = Random.Range(0, availableElements.Length);
             Element element = availableElements[r];
 
-            GameObject spell = fireProjetile; //TODO: this is a workaround. Find a smarter solution.
-
-            switch (element.ElementType)
-            {
-                case Element.ElementEnum.Normal:
-                    break;
-                case Element.ElementEnum.Fire:
-                    spell = fireProjetile;
-                    break;
-                case Element.ElementEnum.Water:
-                    spell = waterProjectile;
-                    break;
-                case Element.ElementEnum.Earth:
-                    spell = earthProjectile;
-                    break;
-                default:
-                    break;
-            }
+            GameObject spell = element.ElementalSpellPrefab; 
 
             isProjectileCharging = true;
             spellCast.StartProjectileCast(spell, element);
@@ -196,7 +178,7 @@ public class EnemyBehaviour : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // Only cast shield if we are not already casting
-        if (isShieldCasting == true) return; 
+        if (isShieldCasting || isProjectileCharging) return; 
 
         // Check if we can counter the spell, if we can, then cast shield.
         if (other.tag == "PlayerElementalProjectile")
@@ -212,29 +194,13 @@ public class EnemyBehaviour : MonoBehaviour
                 {
                     counterElementAvailable = true;
                     counterElement = element;
+                    break;
                 }
             }
 
             if (counterElementAvailable == true)
             {
-
-                GameObject shield = fireShield; //TODO: This is a workaround. Find a smarter solution
-                switch (counterElement.ElementType)
-                {
-                    case Element.ElementEnum.Normal:
-                        break;
-                    case Element.ElementEnum.Fire:
-                        shield = fireShield;
-                        break;
-                    case Element.ElementEnum.Water:
-                        shield = waterShield;
-                        break;
-                    case Element.ElementEnum.Earth:
-                        shield = earthShield;
-                        break;
-                    default:
-                        break;
-                }
+                GameObject shield = counterElement.ElementalShieldPrefab;
 
                 isShieldCasting = true;
                 StartCoroutine(shieldCastCoroutine(shield));
