@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour
     private UpgradeType levelUpgradeType;
 
     public Vector3 PlayerPosition;
+    public Vector3 FallRespawnPosition;
+
 
     public int LevelsCompleted { get; private set; } = 0;
 
@@ -63,6 +65,34 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
 
         SceneManager.LoadScene("MemoryLevel");
+    }
+
+
+    public void PlayerOrEnemyHasFallenOfLevel(GameObject fallingGameObject)
+    {
+        StartCoroutine(FallingRespawnCoroutine(fallingGameObject));
+    }
+
+
+    IEnumerator FallingRespawnCoroutine(GameObject gameObjecToRespawn)
+    {
+        yield return new WaitForSeconds(1f);
+
+        SetVelocityToZero(gameObjecToRespawn);
+
+        ResetPostionAtFallRespawn(gameObjecToRespawn);
+    }
+
+
+    private void SetVelocityToZero(GameObject fallingGameObject)
+    {
+        fallingGameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+    }
+
+
+    private void ResetPostionAtFallRespawn(GameObject fallingGameObject)
+    {
+        fallingGameObject.transform.position = FallRespawnPosition;
     }
 
 
@@ -167,5 +197,11 @@ public class GameManager : MonoBehaviour
             default:
                 break;
         }
+    }
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawCube(FallRespawnPosition, Vector3.one * 3);
     }
 }

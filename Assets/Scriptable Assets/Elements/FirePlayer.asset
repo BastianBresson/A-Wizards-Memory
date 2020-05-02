@@ -10,6 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d3e15d913aae6a8478192e74c7a0ec4c, type: 3}
-  m_Name: Fire
+  m_Name: FirePlayer
   m_EditorClassIdentifier: 
   ElementType: 1
+  ElementalSpellPrefab: {fileID: 4051061837421322283, guid: c2ea35ccb62620a4e840f4971b6ee738,
+    type: 3}
+  ElementalShieldPrefab: {fileID: 6669004543879309679, guid: a323c442bb4d1cd46843539bcaff5a6e,
+    type: 3}

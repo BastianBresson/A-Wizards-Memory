@@ -29,6 +29,8 @@ public class ProjectileSpellBehaviour : MonoBehaviour
         damage = projectileSpell.Damage;
 
         rigidBody = this.gameObject.GetComponent<Rigidbody>();
+        rigidBody.isKinematic = true;
+        
 
     }
 
@@ -46,6 +48,7 @@ public class ProjectileSpellBehaviour : MonoBehaviour
 
         hasBeenCast = true;
 
+        rigidBody.isKinematic = false;
         rigidBody.AddForce(direction * speed);
 
         float scale = this.transform.localScale.magnitude / originalScale.magnitude;

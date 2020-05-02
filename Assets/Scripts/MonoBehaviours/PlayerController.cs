@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     // Movment
     private InputMaster controls;
     private CharacterController controller;
+    private Rigidbody rigidBody;
 
     private Camera mainCamera;
 
@@ -21,7 +22,6 @@ public class PlayerController : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField] private float movementSpeed = 4f;
-    [SerializeField] private float gravity = 20f;
     [SerializeField] private float rotationSpeed = 5f;
     [Space(5)]
 
@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
     [Space(5)]
 
 
-    private Element currentElement;
+    private static Element currentElement;
     private bool isProjectileCasting;
     private bool isShieldCasting;
 
@@ -58,34 +58,37 @@ public class PlayerController : MonoBehaviour
         controls.Player.Select.performed += _ => InputSelect();
     }
 
-    // Start is called before the first frame update
+
     void Start()
     {
         SetComponents();
 
-        // Sets initial projectile & element to earth
-        InputEarthElement();
-
         SetPlayerPositionInMemoryScene();
-
     }
 
 
-    void Update()
+    private void Update()
     {
-        PlayerMovement();
+        UpdateMovementDireciton();
     }
 
 
     private void FixedUpdate()
     {
+        PlayerMovement();
         PlayerRotation();
     }
 
 
     private void SetComponents()
     {
+        if (currentElement == null)
+        {
+            currentElement = earthElement;
+        }
+
         controller = GetComponent<CharacterController>();
+        rigidBody = GetComponent<Rigidbody>();
         spellCast = GetComponent<SpellCastBehaviour>();
         mainCamera = Camera.main;
     }
@@ -105,33 +108,23 @@ public class PlayerController : MonoBehaviour
 
     private void PlayerMovement()
     {
-        if (controller.isGrounded == true)
-        {
-            GroundMovement();
-        }
-
-        ApplyGravity();
-
         MovePlayer();
     }
 
 
-    private void GroundMovement()
+    private void UpdateMovementDireciton()
     {
         movementDirection = new Vector3(direction.x, 0.0f, direction.y);
         movementDirection *= movementSpeed;
     }
 
 
-    private void ApplyGravity()
-    {
-        movementDirection.y -= gravity * Time.deltaTime;
-    }
-
-
     private void MovePlayer()
     {
-        controller.Move(movementDirection * Time.deltaTime);
+        float currentVerticalMovement = rigidBody.velocity.y;
+        Vector3 newVelocity = movementDirection;
+        newVelocity.y = currentVerticalMovement;
+        rigidBody.velocity = newVelocity;
     }
 
     private RaycastHit debugHit;

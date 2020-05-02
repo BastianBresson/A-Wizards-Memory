@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4876885467333444650}
   - component: {fileID: 5811680666099946718}
   - component: {fileID: 41528698131350413}
+  - component: {fileID: -748039670406266089}
   m_Layer: 0
   m_Name: Cloud3
   m_TagString: Untagged
@@ -2250,3 +2251,15 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &-748039670406266089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6106554944629604688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb65a39efa91c2b4a8b30a26f87fd5df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

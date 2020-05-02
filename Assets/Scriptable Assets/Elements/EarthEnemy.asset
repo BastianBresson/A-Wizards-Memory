@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3e15d913aae6a8478192e74c7a0ec4c, type: 3}
   m_Name: EarthEnemy
   m_EditorClassIdentifier: 
-  ElementType: 0
-  ElementalSpellPrefab: {fileID: 0}
-  ElementalShieldPrefab: {fileID: 0}
+  ElementType: 3
+  ElementalSpellPrefab: {fileID: 3856541540133483651, guid: 1c5f137687b5ea7479058cd2b58bab27,
+    type: 3}
+  ElementalShieldPrefab: {fileID: 5185282199528734366, guid: 960eb6c5fc1a2284280e543dc3128515,
+    type: 3}

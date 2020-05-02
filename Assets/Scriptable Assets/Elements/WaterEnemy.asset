@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3e15d913aae6a8478192e74c7a0ec4c, type: 3}
   m_Name: WaterEnemy
   m_EditorClassIdentifier: 
-  ElementType: 0
-  ElementalSpellPrefab: {fileID: 0}
-  ElementalShieldPrefab: {fileID: 0}
+  ElementType: 2
+  ElementalSpellPrefab: {fileID: 2198546284444602763, guid: d3ad0c2b2b681a04abe2b6cd65cd8e99,
+    type: 3}
+  ElementalShieldPrefab: {fileID: 2068907826184734625, guid: c0b9a2675d22a594f961db4ba7ab9dda,
+    type: 3}
