@@ -13,14 +13,12 @@ public class ProjectileSpellBehaviour : MonoBehaviour
     public float damage;
 
     private Vector3 startPosition;
+    private Vector3 startScale;
 
     private Rigidbody rigidBody;
 
-    private Vector3 startScale;
 
-
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         NullChecks();
 
@@ -35,13 +33,24 @@ public class ProjectileSpellBehaviour : MonoBehaviour
     }
 
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         DestroyOnMaxRange();
     }
 
+
     public void CastProjectile(Vector3 direction, Vector3 originalScale)
+    {
+        OnCastSetVariables();
+
+        LaunchProjectile(direction); //should happen before increasing mass for consistent speed
+
+        float scaleIncrease = ScaleIncreaseFactor(originalScale);
+        IncreaseDamageAndMass(scaleIncrease);
+    }
+
+
+    private void OnCastSetVariables()
     {
         this.transform.parent = null;
         startPosition = this.transform.position;
@@ -49,19 +58,33 @@ public class ProjectileSpellBehaviour : MonoBehaviour
         hasBeenCast = true;
 
         rigidBody.isKinematic = false;
-        rigidBody.AddForce(direction * speed);
-
-        float scale = this.transform.localScale.magnitude / originalScale.magnitude;
-        float scalingFactor = 0.25f * Mathf.Pow(3, scale);
-        scalingFactor = (float)System.Math.Round(scalingFactor, 1);
-        damage *= scalingFactor;
-        rigidBody.mass *= scalingFactor;
-
-
     }
 
 
-    void DestroyOnMaxRange()
+    private void LaunchProjectile(Vector3 direction)
+    {
+        rigidBody.AddForce(direction * speed);
+    }
+
+
+    private float ScaleIncreaseFactor(Vector3 originalScale)
+    {
+        float scale = this.transform.localScale.magnitude / originalScale.magnitude;
+        float scalingFactor = 0.25f * Mathf.Pow(2, scale);
+        scalingFactor = (float)System.Math.Round(scalingFactor, 1);
+
+        return scalingFactor;
+    }
+
+
+    private void IncreaseDamageAndMass(float scaleIncrease)
+    {
+        damage *= scaleIncrease;
+        rigidBody.mass *= scaleIncrease;
+    }
+
+
+    private void DestroyOnMaxRange()
     {
         if (hasBeenCast &&  Vector3.Distance(startPosition, transform.position) > range)
         {

@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5ffcaa3c1d54c948a606b9e54e7936e, type: 3}
   m_Name: PlayerSkillTree
   m_EditorClassIdentifier: 
-  EarthProjectilesLvl: 2
-  FireProjectilesLvl: 1
+  EarthProjectilesLvl: 0
+  FireProjectilesLvl: 0
   WaterProjectilesLvl: 0
   EarthMultiplierLvl: 0
-  FireMultiplerLvl: 4
+  FireMultiplerLvl: 0
   WaterMultiplierLvl: 0
   MultiplierValue: 0.25
   Level: 1
