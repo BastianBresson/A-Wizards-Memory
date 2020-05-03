@@ -70,13 +70,14 @@ public class PlayerController : MonoBehaviour
     private void Update()
     {
         UpdateMovementDireciton();
+
+        PlayerRotation();
     }
 
 
     private void FixedUpdate()
     {
         PlayerMovement();
-        PlayerRotation();
     }
 
 
