@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "EnemyHealth", menuName = "Scriptables/Health/EnemyHealth")]
 public class EnemyHealth : Health
 {
-    public override void TakeDamage(GameObject obj, int currentHealth)
+    public override void TakeDamage(GameObject obj, float currentHealth)
     {
         if (currentHealth <= 0)
         {

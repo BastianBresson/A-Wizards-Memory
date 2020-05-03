@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Health : ScriptableObject
 {
-    public int MaxHealth;
+    public float MaxHealth;
 
-    public abstract void TakeDamage(GameObject obj, int currentHealth);
+    public abstract void TakeDamage(GameObject obj, float currentHealth);
 }

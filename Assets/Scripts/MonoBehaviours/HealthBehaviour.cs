@@ -6,8 +6,8 @@ public class HealthBehaviour : MonoBehaviour
 {
     public Health Health;
 
-    int maxHealth;
-    [SerializeField] int currentHealth;
+    float maxHealth;
+    [SerializeField] float currentHealth;
 
 
     // Start is called before the first frame update
@@ -20,7 +20,7 @@ public class HealthBehaviour : MonoBehaviour
 
     }
 
-    public void ReceiveDamage(int damage)
+    public void ReceiveDamage(float damage)
     {
         currentHealth -= damage;
 

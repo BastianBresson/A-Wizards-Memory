@@ -94,9 +94,32 @@ public class ProjectileSpellBehaviour : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag != "PlayerElementalProjectile" && collision.gameObject.tag != "EnemyElementalProjectile")
+        GameObject collidedObject = collision.gameObject;
+
+        // projectiles should not be destroyed on collision with other projetiles
+        if (!IsProjectileColliosion(collidedObject)) 
         {
-            projectileSpell.Collide(collision.gameObject, this.gameObject);
+            DealDamageIfObjectHasHealth(collidedObject);
+
+            Destroy(this.gameObject);
+        }
+    }
+
+
+    private bool IsProjectileColliosion(GameObject collidedObject)
+    {
+        bool isPlayerProjectile = collidedObject.tag == "PlayerElementalProjectile";
+        bool isEnemyProjectile = collidedObject.tag == "EnemyElementalProjectile";
+
+        return isPlayerProjectile || isEnemyProjectile;
+    }
+
+
+    private void DealDamageIfObjectHasHealth(GameObject collidedObject)
+    {
+        if (collidedObject.tag == "Enemy" || collidedObject.tag == "Player" || collidedObject.tag == "DestructableObject")
+        {
+            collidedObject.GetComponent<HealthBehaviour>().ReceiveDamage(this.damage);
         }
     }
 
