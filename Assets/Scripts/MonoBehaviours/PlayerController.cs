@@ -20,7 +20,9 @@ public class PlayerController : MonoBehaviour
     private Vector2 direction = Vector2.zero;
     private Vector3 movementDirection = Vector3.zero;
 
+
     [Header("Movement")]
+    private float currentMovementSpeed;
     [SerializeField] private float movementSpeed = 4f;
     [SerializeField] private float rotationSpeed = 5f;
     [Space(5)]
@@ -88,6 +90,7 @@ public class PlayerController : MonoBehaviour
             currentElement = earthElement;
         }
 
+        currentMovementSpeed = movementSpeed;
         controller = GetComponent<CharacterController>();
         rigidBody = GetComponent<Rigidbody>();
         spellCast = GetComponent<SpellCastBehaviour>();
@@ -116,7 +119,7 @@ public class PlayerController : MonoBehaviour
     private void UpdateMovementDireciton()
     {
         movementDirection = new Vector3(direction.x, 0.0f, direction.y);
-        movementDirection *= movementSpeed;
+        movementDirection *= currentMovementSpeed;
     }
 
 
@@ -179,6 +182,8 @@ public class PlayerController : MonoBehaviour
     {
         if (!isProjectileCasting && !isShieldCasting)
         {
+            SlowDownMovementSpeed();
+
             isProjectileCasting =  true;
             
             spellCast.StartProjectileCast(currentElement.ElementalSpellPrefab, currentElement);
@@ -190,6 +195,8 @@ public class PlayerController : MonoBehaviour
     {
         if (isProjectileCasting && !isShieldCasting)
         {
+            SpeedUpMovementSpeed();
+
             isProjectileCasting = false;
 
             spellCast.CastProjectileSpell();
@@ -201,6 +208,8 @@ public class PlayerController : MonoBehaviour
     {
         if (!isShieldCasting && !isProjectileCasting)
         {
+            SlowDownMovementSpeed();
+
             isShieldCasting = true;
 
             spellCast.CastElementShield(currentElement.ElementalShieldPrefab);
@@ -213,9 +222,53 @@ public class PlayerController : MonoBehaviour
     {
         if (isShieldCasting && !isProjectileCasting)
         {
+            SpeedUpMovementSpeed();
+
             isShieldCasting = false;
 
             spellCast.StopCastingShield();
+        }
+    }
+
+
+    private void SlowDownMovementSpeed()
+    {
+        if (this.gameObject != null)
+        {
+            StopCoroutine(SpeedUpMomementSpeedCoroutine());
+
+            StartCoroutine(SlowDownMomementSpeedCoroutine());
+        }
+    }
+
+
+    IEnumerator SlowDownMomementSpeedCoroutine()
+    {
+        while (currentMovementSpeed > (movementSpeed / 2))
+        {
+            currentMovementSpeed -= 5 * Time.deltaTime;
+            yield return null;
+        }
+    }
+
+
+    private void SpeedUpMovementSpeed()
+    {
+        if (this.gameObject != null)
+        {
+            StopCoroutine(SlowDownMomementSpeedCoroutine());
+
+            StartCoroutine(SpeedUpMomementSpeedCoroutine());
+        }
+    }
+
+
+    IEnumerator SpeedUpMomementSpeedCoroutine()
+    {
+        while (currentMovementSpeed < movementSpeed)
+        {
+            currentMovementSpeed += 5 * Time.deltaTime;
+            yield return null;
         }
     }
 
