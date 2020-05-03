@@ -61,8 +61,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2577453381356407449}
   m_LocalRotation: {x: 0.02880374, y: -0.013947636, z: -0.06028452, w: 0.9976681}
-  m_LocalPosition: {x: 0.80666, y: 0.61872, z: 0.03557}
-  m_LocalScale: {x: 1.245, y: 0.83, z: 1.2450001}
+  m_LocalPosition: {x: 0.633, y: 0.639, z: 0.031}
+  m_LocalScale: {x: 1, y: 0.83, z: 1}
   m_Children: []
   m_Father: {fileID: 6469237745730945325}
   m_RootOrder: 0
@@ -988,9 +988,9 @@ MeshCollider:
   m_GameObject: {fileID: 2577453381356407449}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
 --- !u!1 &2926450539206101047
@@ -1021,8 +1021,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2926450539206101047}
   m_LocalRotation: {x: 0.05262802, y: 0.48315796, z: -0.039007217, w: 0.8730791}
-  m_LocalPosition: {x: 0.35348, y: 0.78762, z: -0.48567}
-  m_LocalScale: {x: 1.1576592, y: 0.1480557, z: 1.1576592}
+  m_LocalPosition: {x: 0.287, y: 0.79, z: -0.379}
+  m_LocalScale: {x: 0.9, y: 0.1480557, z: 0.9}
   m_Children: []
   m_Father: {fileID: 6469237745730945325}
   m_RootOrder: 1
@@ -1436,9 +1436,9 @@ MeshCollider:
   m_GameObject: {fileID: 2926450539206101047}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
 --- !u!1 &7254131927355589232
@@ -1469,8 +1469,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7254131927355589232}
   m_LocalRotation: {x: 0.052309863, y: 0.4902244, z: -0.039432846, w: 0.869131}
-  m_LocalPosition: {x: 0.27604118, y: 0.80017006, z: -0.37619066}
-  m_LocalScale: {x: 0.9129999, y: 0.83, z: 0.913}
+  m_LocalPosition: {x: 0.256, y: 0.801, z: -0.342}
+  m_LocalScale: {x: 0.8, y: 0.83, z: 0.8}
   m_Children: []
   m_Father: {fileID: 6469237745730945325}
   m_RootOrder: 2
@@ -1884,8 +1884,8 @@ MeshCollider:
   m_GameObject: {fileID: 7254131927355589232}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}

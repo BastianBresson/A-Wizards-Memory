@@ -138,7 +138,12 @@ public class PlayerController : MonoBehaviour
         Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         if (Physics.SphereCast(ray, 0.2f,  out hit))
         {
+            if (hit.collider.gameObject.tag == "Enemy")
+            {
+                hit.point = hit.collider.gameObject.transform.position;
+            }
             debugHit = hit;
+
             Quaternion rotation = RotationTowardsPoint(hit.point);
 
             GraduallyRotatePlayer(rotation);
