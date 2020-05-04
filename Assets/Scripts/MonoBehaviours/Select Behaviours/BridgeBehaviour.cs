@@ -12,14 +12,19 @@ public class BridgeBehaviour : MonoBehaviour
     [SerializeField] private GameObject selectCollider = default;
     [SerializeField] private GameObject nextMemoryLevel = default;
 
+    private MeshCollider bridgeCollider;
+
     [SerializeField] private uint id;
     public uint ID { get { return id; } private set { id = value; } }
 
+    private void Awake()
+    {
+        bridgeCollider = bridge.GetComponent<MeshCollider>();
+        DisableBridgeCollider();
+    }
 
     private void Start()
     {
-        DisableBridgeCollider();
-
         selector = AddSelector();
         selector.OnSelect = Selected;
 
@@ -53,13 +58,14 @@ public class BridgeBehaviour : MonoBehaviour
 
     private void DisableBridgeCollider()
     {
-        bridge.GetComponent<MeshCollider>().enabled = false;
+        bridgeCollider.enabled = false;
     }
 
 
     private void EnableBridgeCollider()
     {
-        bridge.GetComponent<MeshCollider>().enabled = true;
+        bridgeCollider.enabled = true;
+        bridge.GetComponent<MeshRenderer>().material = selectedBridgeMat;
     }
 
     private SelectBehaviour AddSelector()
@@ -69,15 +75,14 @@ public class BridgeBehaviour : MonoBehaviour
 
     public void PreviouslySelected()
     {
-        bridge.GetComponent<MeshRenderer>().material = selectedBridgeMat;
+
+        EnableBridgeCollider();
     }
 
 
     private void Selected()
     {
         EnableBridgeCollider();
-
-        bridge.GetComponent<MeshRenderer>().material = selectedBridgeMat; 
 
         nextMemoryLevel.SetActive(true);
 

@@ -144,19 +144,20 @@ public class PlayerController : MonoBehaviour
             }
             debugHit = hit;
 
-            Quaternion rotation = RotationTowardsPoint(hit.point);
+            Quaternion playerRotation = RotationTowardsPoint(this.transform.position, hit.point);
+            Quaternion spellPointRotation = RotationTowardsPoint(spellCastPoint.transform.position, hit.point);
 
-            GraduallyRotatePlayer(rotation);
+            GraduallyRotatePlayer(playerRotation);
 
-            GraduallyRotateSpellPoint(rotation);
+            GraduallyRotateSpellPoint(spellPointRotation);
         }
         
     }
 
 
-    private Quaternion RotationTowardsPoint(Vector3 point)
+    private Quaternion RotationTowardsPoint(Vector3 startPosition, Vector3 toPosition)
     {
-        Vector3 rotateTowards = point - this.transform.position;
+        Vector3 rotateTowards = toPosition - startPosition;
         rotateTowards.y = 0;
 
         Quaternion toRotation = Quaternion.LookRotation(rotateTowards);
@@ -173,7 +174,7 @@ public class PlayerController : MonoBehaviour
 
     private void GraduallyRotateSpellPoint(Quaternion rotation)
     {
-        spellCastPoint.transform.rotation = Quaternion.Slerp(spellCastPoint.transform.rotation, rotation, (rotationSpeed * 1.5f) * Time.deltaTime);
+        spellCastPoint.transform.rotation = Quaternion.Slerp(spellCastPoint.transform.rotation, rotation, (rotationSpeed * 2f) * Time.deltaTime);
     }
 
 

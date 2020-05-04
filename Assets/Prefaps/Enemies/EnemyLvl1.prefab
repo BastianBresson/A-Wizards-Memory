@@ -227,10 +227,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hat
       objectReference: {fileID: 0}
+    - target: {fileID: 1794750317463552400, guid: b61df52cf773e434bb989620ff43c362,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 1794750317463552400, guid: b61df52cf773e434bb989620ff43c362,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2382572815436103451, guid: b61df52cf773e434bb989620ff43c362,
         type: 3}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2577453381356407449, guid: b61df52cf773e434bb989620ff43c362,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 2577453381356407449, guid: b61df52cf773e434bb989620ff43c362,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2714264772114951570, guid: b61df52cf773e434bb989620ff43c362,
         type: 3}
@@ -241,6 +261,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Convex
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2926450539206101047, guid: b61df52cf773e434bb989620ff43c362,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 2926450539206101047, guid: b61df52cf773e434bb989620ff43c362,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3239170256685975950, guid: b61df52cf773e434bb989620ff43c362,
         type: 3}
@@ -317,6 +347,16 @@ PrefabInstance:
       propertyPath: m_Convex
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7254131927355589232, guid: b61df52cf773e434bb989620ff43c362,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
+    - target: {fileID: 7254131927355589232, guid: b61df52cf773e434bb989620ff43c362,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7545227641858201609, guid: b61df52cf773e434bb989620ff43c362,
         type: 3}
       propertyPath: m_Mesh
@@ -352,10 +392,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: Staff
       objectReference: {fileID: 0}
+    - target: {fileID: 2980709322775096703, guid: 5845b9ed0236f2c4faab6c4585dce228,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5838497781269542507, guid: 5845b9ed0236f2c4faab6c4585dce228,
         type: 3}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6910712543917657963, guid: 5845b9ed0236f2c4faab6c4585dce228,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7432540119411803246, guid: 5845b9ed0236f2c4faab6c4585dce228,
         type: 3}

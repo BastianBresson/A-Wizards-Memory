@@ -956,8 +956,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectedBridgeMat: {fileID: 2100000, guid: 7ca70aff8c1ed0a439de844acccac09c, type: 2}
-  nonSelectedBridgeMat: {fileID: 2100000, guid: 56254414744ecdd45a4d5dd301a45538,
-    type: 2}
   bridge: {fileID: 2214828380813010177}
   selectCollider: {fileID: 4170453331645099703}
   nextMemoryLevel: {fileID: 0}
