@@ -32,3 +32,4 @@ Material:
     m_Colors:
     - Color_29EF40CF: {r: 2.3559687, g: 0.09867932, b: 0, a: 0}
     - Color_7B36BC3C: {r: 3.8113213, g: 0.039909124, b: 0, a: 1}
+    - Vector2_6D22BFF3: {r: 0.001, g: 0.001, b: 0, a: 0}

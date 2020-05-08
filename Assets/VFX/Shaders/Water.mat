@@ -30,5 +30,6 @@ Material:
     - Vector1_C0C593BB: 300
     - Vector1_C163AC35: 1
     m_Colors:
-    - Color_29EF40CF: {r: 0, g: 0.03137255, b: 0.28627452, a: 0}
+    - Color_29EF40CF: {r: 0, g: 0.044367485, b: 0.4048533, a: 0}
     - Color_7B36BC3C: {r: 0, g: 0.30766144, b: 0.8, a: 0}
+    - Vector2_6D22BFF3: {r: 0.001, g: 0.001, b: 0, a: 0}
