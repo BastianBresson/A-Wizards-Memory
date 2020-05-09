@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FireEnemy
   m_EditorClassIdentifier: 
   ElementType: 1
-  ElementalSpellPrefab: {fileID: 6617806643939794394, guid: 9c49835a88f8eb945be4045e28fdf410,
+  ElementalSpellPrefab: {fileID: 1371042038322965808, guid: 9c49835a88f8eb945be4045e28fdf410,
     type: 3}
   ElementalShieldPrefab: {fileID: 6669004543879309679, guid: a323c442bb4d1cd46843539bcaff5a6e,
     type: 3}

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: EarthPlayer
   m_EditorClassIdentifier: 
   ElementType: 3
-  ElementalSpellPrefab: {fileID: 4051061837421322283, guid: d8b3f1cabbb0cfc4591ca5a2cbba10d6,
+  ElementalSpellPrefab: {fileID: 2926747632356305364, guid: d8b3f1cabbb0cfc4591ca5a2cbba10d6,
     type: 3}
   ElementalShieldPrefab: {fileID: 5185282199528734366, guid: 960eb6c5fc1a2284280e543dc3128515,
     type: 3}

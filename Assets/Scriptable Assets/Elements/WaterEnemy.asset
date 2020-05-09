@@ -15,5 +15,5 @@ MonoBehaviour:
   ElementType: 2
   ElementalSpellPrefab: {fileID: 2198546284444602763, guid: d3ad0c2b2b681a04abe2b6cd65cd8e99,
     type: 3}
-  ElementalShieldPrefab: {fileID: 2068907826184734625, guid: c0b9a2675d22a594f961db4ba7ab9dda,
+  ElementalShieldPrefab: {fileID: 609343701463543339, guid: d3ad0c2b2b681a04abe2b6cd65cd8e99,
     type: 3}
