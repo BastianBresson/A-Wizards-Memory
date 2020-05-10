@@ -25,7 +25,7 @@ public class CameraController : MonoBehaviour
     }
 
 
-    void Update()
+    void LateUpdate()
     {
         if (player != null) // Player died
         {

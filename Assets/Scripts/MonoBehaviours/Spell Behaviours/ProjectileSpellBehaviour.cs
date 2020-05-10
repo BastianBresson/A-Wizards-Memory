@@ -28,7 +28,6 @@ public class ProjectileSpellBehaviour : MonoBehaviour
 
         rigidBody = this.gameObject.GetComponent<Rigidbody>();
         rigidBody.isKinematic = true;
-        
 
     }
 
