@@ -58,6 +58,7 @@ public class FollowPlayer : MonoBehaviour
     {
         Vector3 lerpFromPosition = this.transform.position;
         Vector3 lerpToPosition = player.transform.position + offsetPosition;
+        lerpToPosition.y = this.transform.position.y;
 
         Vector3 lerpPosition = Vector3.Lerp(lerpFromPosition, lerpToPosition, lerpSpeed * Time.deltaTime);
         this.transform.position = lerpPosition;

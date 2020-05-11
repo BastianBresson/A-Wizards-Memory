@@ -12,7 +12,7 @@ Material:
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -24,11 +24,29 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - Texture2D_ACE0D811:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_4CE241D1_Texture_1:
         m_Texture: {fileID: 2800000, guid: 1823b0dbb26252a44be8bb09e387e935, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_8459ED9E_Texture_1:
+        m_Texture: {fileID: 2800000, guid: 00643a53413f9d64bb5ecbfd5f13af0b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_10B15892_Out_0:
+        m_Texture: {fileID: 2800000, guid: 1823b0dbb26252a44be8bb09e387e935, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_43CF4D97: 0.1
-    - Vector1_EE503E1C: 0.2
-    m_Colors: []
+    - Vector1_1670911A: 0
+    - Vector1_1D7C4A0D: 0.01
+    - Vector1_2DE937C2: 0
+    - Vector1_43CF4D97: 0.02
+    - Vector1_86B22F34: 1
+    - Vector1_EE503E1C: 0.02
+    m_Colors:
+    - Color_8F9A7312: {r: 511.99994, g: 511.99994, b: 265.38217, a: 0}
+    - Color_E6382CC2: {r: 0, g: 0, b: 0, a: 0}

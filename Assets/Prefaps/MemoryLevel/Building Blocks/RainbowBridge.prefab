@@ -60,7 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 56254414744ecdd45a4d5dd301a45538, type: 2}
+  - {fileID: 2100000, guid: 5d147cfef4a52dd44ad1749d06fb25c5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -955,7 +955,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bad106fc7b9c1474daeffc17a04d7f4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedBridgeMat: {fileID: 2100000, guid: 7ca70aff8c1ed0a439de844acccac09c, type: 2}
+  selectedBridgeMat: {fileID: 2100000, guid: 12cf2d68779cf3c4cae2d75d761f019d, type: 2}
   bridge: {fileID: 2214828380813010177}
   selectCollider: {fileID: 4170453331645099703}
   nextMemoryLevel: {fileID: 0}
@@ -1021,7 +1021,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 8d2f52f8c1bab6141b938e81ec247826, type: 2}
+  - {fileID: 2100000, guid: 12cf2d68779cf3c4cae2d75d761f019d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
