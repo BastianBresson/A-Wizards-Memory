@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WaterEnemy
   m_EditorClassIdentifier: 
   ElementType: 2
-  ElementalSpellPrefab: {fileID: 2198546284444602763, guid: d3ad0c2b2b681a04abe2b6cd65cd8e99,
+  ElementalSpellPrefab: {fileID: 609343701463543339, guid: d3ad0c2b2b681a04abe2b6cd65cd8e99,
     type: 3}
-  ElementalShieldPrefab: {fileID: 609343701463543339, guid: d3ad0c2b2b681a04abe2b6cd65cd8e99,
+  ElementalShieldPrefab: {fileID: 8617346342940208348, guid: 1572ed9599e95d64a91a228030c6dc43,
     type: 3}

@@ -7,8 +7,8 @@ public class SpellCastBehaviour : MonoBehaviour
 {
     [SerializeField] SkillTree skillTree;
 
-    [SerializeField] private GameObject SpellCastPoint = default;
-
+    [SerializeField] private GameObject spellCastPoint = default;
+    [SerializeField] private GameObject shieldCastPoint = default;
 
     [SerializeField] private float angle = 15f;
 
@@ -70,10 +70,10 @@ public class SpellCastBehaviour : MonoBehaviour
 
     public void CastElementShield(GameObject shield)
     {
-        Vector3 direction = SpellCastPoint.transform.forward;
+        Vector3 direction = shieldCastPoint.transform.forward;
         direction.y = 0;
 
-        castingShield = Instantiate(shield, SpellCastPoint.transform.position, Quaternion.LookRotation(direction), SpellCastPoint.transform);
+        castingShield = Instantiate(shield, shieldCastPoint.transform.position, Quaternion.LookRotation(direction), shieldCastPoint.transform);
     }
 
 
@@ -97,7 +97,7 @@ public class SpellCastBehaviour : MonoBehaviour
         currentScaleTime = 0.0f;
 
         Vector3 direction = SpawnDirection();
-        Vector3 position = SpellCastPoint.transform.position;
+        Vector3 position = spellCastPoint.transform.position;
 
         InstantiateProjectile(projectileToCast, position, direction);
 
@@ -122,7 +122,7 @@ public class SpellCastBehaviour : MonoBehaviour
     private void InstantiateProjectile(GameObject projectileToCast, Vector3 startPosition, Vector3 lookDirection)
     {
         Quaternion rotation = Quaternion.LookRotation(lookDirection);
-        Transform parent = SpellCastPoint.transform;
+        Transform parent = spellCastPoint.transform;
 
         GameObject projectile = Instantiate(projectileToCast, startPosition , rotation, parent);
 
@@ -132,7 +132,7 @@ public class SpellCastBehaviour : MonoBehaviour
 
     private Vector3 SpawnDirection()
     {
-        Vector3 direction = SpellCastPoint.transform.forward;
+        Vector3 direction = spellCastPoint.transform.forward;
         direction.y = 0;
         return direction;
     }
@@ -140,10 +140,10 @@ public class SpellCastBehaviour : MonoBehaviour
 
     private void ChargeAdditionalProjectile(GameObject projectileToCast, Vector3 lookDirection, int projectilesLvl)
     {
-        Vector3 basePosition = SpellCastPoint.transform.position;
+        Vector3 basePosition = spellCastPoint.transform.position;
 
-        Vector3 right = SpellCastPoint.transform.right;
-        Vector3 forward = SpellCastPoint.transform.forward * 0.1f;
+        Vector3 right = spellCastPoint.transform.right;
+        Vector3 forward = spellCastPoint.transform.forward * 0.1f;
         Vector3 rightSpawnOffset = (right - forward) * 0.75f;
         Vector3 leftSpawnOffset = ((right * -1) - forward) * 0.75f;
 
