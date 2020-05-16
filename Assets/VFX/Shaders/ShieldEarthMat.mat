@@ -7,12 +7,12 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: EarthShieldMat
+  m_Name: ShieldEarthMat
   m_Shader: {fileID: -6465566751694194690, guid: 1a896a34ec5664947a6d51a1a40cbcba,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 1
+  m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -21,12 +21,12 @@ Material:
     serializedVersion: 3
     m_TexEnvs: []
     m_Floats:
-    - Vector1_5053EC0B: 0.2
-    - Vector1_56C1FA4F: 20
-    - Vector1_71001CA0: 25
-    - Vector1_E7E46B15: 0.01
+    - Vector1_5053EC0B: 0.5
+    - Vector1_56C1FA4F: 15
+    - Vector1_71001CA0: 10
+    - Vector1_E7E46B15: 0.5
     - Vector1_E992FDB3: 1
     m_Colors:
-    - Color_8F0E5A56: {r: 0.13207549, g: 0.017070983, b: 0, a: 0}
-    - Color_F8F06AEE: {r: 0.2509804, g: 8.533334, b: 0, a: 0}
-    - Vector2_47A0E7D1: {r: -1, g: 0, b: 0, a: 0}
+    - Color_8F0E5A56: {r: 0.4339623, g: 0.2116889, b: 0, a: 1}
+    - Color_F8F06AEE: {r: 0.4258778, g: 5.7200437, b: 0, a: 0}
+    - Vector2_47A0E7D1: {r: 0, g: 0, b: 0, a: 0}

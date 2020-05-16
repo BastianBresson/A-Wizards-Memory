@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
@@ -43,6 +44,21 @@ public class PlayerController : MonoBehaviour
     SpellCastBehaviour spellCast;
 
 
+    public void OnGameStarted()
+    {
+        controls.Enable();
+    }
+
+
+    public void OnSelectCollision(bool entered, SelectBehaviour selector)
+    {
+        canSelect = entered;
+
+        this.selector = entered == true ? selector : null;
+
+    }
+
+
     private void Awake()
     {
         controls = new InputMaster();
@@ -58,6 +74,8 @@ public class PlayerController : MonoBehaviour
         controls.Player.WaterElement.performed += _ => InputWaterElement();
 
         controls.Player.Select.performed += _ => InputSelect();
+
+        controls.Player.Map.performed += _ => InputMap();
     }
 
 
@@ -102,7 +120,7 @@ public class PlayerController : MonoBehaviour
     {    
         Scene currentScene = SceneManager.GetActiveScene();
 
-        if (currentScene.name == "MemoryLevel")
+        if (currentScene.name == "MemoryLevel" && MainMenu.gameHasStarted)
         {
             Vector3 pos = GameManager.Instance.PlayerPosition;
             this.transform.position = pos;
@@ -306,18 +324,31 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    public void SelectCollision(bool entered, SelectBehaviour selector)
+    private void InputMap()
     {
-        canSelect = entered;
+        FindCamera().GetComponent<CameraController>().OnDisplayMap();
+    }
 
-        this.selector = entered == true ? selector : null;
 
+    private void InputMenu()
+    {
+
+    }
+
+
+    private GameObject FindCamera()
+    {
+        GameObject camera = GameObject.FindGameObjectWithTag("MainCamera");
+        return camera;
     }
 
 
     private void OnEnable()
     {
-        controls.Enable();
+        if (MainMenu.gameHasStarted)
+        {
+            controls.Enable();
+        }
     }
 
 

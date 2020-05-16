@@ -14,6 +14,8 @@ TagManager:
   - LevelEnd
   - StartPlatform
   - LevelSelector
+  - MainMenu
+  - LevelLoader
   layers:
   - Default
   - TransparentFX

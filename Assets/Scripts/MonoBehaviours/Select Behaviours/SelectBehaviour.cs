@@ -24,6 +24,6 @@ public class SelectBehaviour : MonoBehaviour
 
     public void NotifyPlayerController(bool entered, PlayerController player)
     {
-        player.SelectCollision(entered, this);
+        player.OnSelectCollision(entered, this);
     }
 }

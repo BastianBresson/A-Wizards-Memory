@@ -7,12 +7,12 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WaterShieldMat
+  m_Name: ShieldFireMat
   m_Shader: {fileID: -6465566751694194690, guid: 1a896a34ec5664947a6d51a1a40cbcba,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 1
+  m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -21,12 +21,12 @@ Material:
     serializedVersion: 3
     m_TexEnvs: []
     m_Floats:
-    - Vector1_5053EC0B: 3
-    - Vector1_56C1FA4F: 25
-    - Vector1_71001CA0: 20
-    - Vector1_E7E46B15: 1
+    - Vector1_5053EC0B: 2
+    - Vector1_56C1FA4F: 15
+    - Vector1_71001CA0: 8
+    - Vector1_E7E46B15: 0.25
     - Vector1_E992FDB3: 1
     m_Colors:
-    - Color_8F0E5A56: {r: 0, g: 0.23913781, b: 0.7490196, a: 1}
-    - Color_F8F06AEE: {r: 0, g: 10.666667, b: 11.984314, a: 1}
-    - Vector2_47A0E7D1: {r: 0.1, g: 0, b: 0, a: 0}
+    - Color_8F0E5A56: {r: 0.6226415, g: 0.0056093824, b: 0, a: 1}
+    - Color_F8F06AEE: {r: 53.207848, g: 4.1786265, b: 0, a: 1}
+    - Vector2_47A0E7D1: {r: 0.1, g: 0.1, b: 0, a: 0}

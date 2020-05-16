@@ -36,16 +36,25 @@ public class GameManager : MonoBehaviour
 
     public int LevelsCompleted { get; private set; } = 0;
 
-    private void Awake()
+
+    public uint GetCompletedLevel()
     {
-        DontDestroyOnLoad(this.gameObject);
+        return completedLevel;
     }
 
-    // Only runs ones (on game startup) due to singleton pattern and not being destroyed on scene load, see Awake()
-    private void Start()
+
+    public void LevelComplete()
     {
+        LevelsCompleted++;
+
+        completedLevel = (uint)selectedLevel;
+
         GameObject player = FindPlayer();
-        ResetPlayer(player);
+        UpgradePlayer(player);
+
+        ResetLevelVariables();
+
+        LoadMemoryLevelScene();
     }
 
 
@@ -60,11 +69,25 @@ public class GameManager : MonoBehaviour
         StartCoroutine(PlayerDiedCoroutine());
     }
 
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(this.gameObject);
+    }
+
+    // Only runs ones (on game startup) due to singleton pattern and not being destroyed on scene load, see Awake()
+    private void Start()
+    {
+        GameObject player = FindPlayer();
+        ResetPlayer(player);
+    }
+
+
     private IEnumerator PlayerDiedCoroutine()
     {
         yield return new WaitForSeconds(0.5f);
 
-        SceneManager.LoadScene("MemoryLevel");
+        LoadMemoryLevelScene();
     }
 
 
@@ -107,24 +130,15 @@ public class GameManager : MonoBehaviour
     }
 
 
-    public void LevelComplete()
+    private void LoadElementLevelScene(Element element)
     {
-        LevelsCompleted++;
-
-        completedLevel = (uint)selectedLevel;
-
-        GameObject player = FindPlayer();
-        UpgradePlayer(player);
-
-        ResetLevelVariables();
-
-        SceneManager.LoadScene("MemoryLevel");
+        GameObject.FindWithTag("LevelLoader").GetComponent<LevelLoader>().OnLoadScene(element);
     }
 
 
-    public uint GetCompletedLevel()
+    private void LoadMemoryLevelScene()
     {
-        return completedLevel;
+        GameObject.FindWithTag("LevelLoader").GetComponent<LevelLoader>().OnLoadScene();
     }
 
 
@@ -177,25 +191,6 @@ public class GameManager : MonoBehaviour
         {
             SpellCastBehaviour spellSystem = GetPlayerSpellSystem(player);
             spellSystem.UpgradeSkillTree(levelElement, levelUpgradeType);
-        }
-    }
-
-
-    private void LoadElementLevelScene(Element element)
-    {
-        switch (element.ElementType)
-        {
-            case Element.ElementEnum.Fire:
-                SceneManager.LoadScene("FireLevelScene");
-                break;
-            case Element.ElementEnum.Water:
-                SceneManager.LoadScene("WaterLevelScene");
-                break;
-            case Element.ElementEnum.Earth:
-                SceneManager.LoadScene("EarthLevelScene");
-                break;
-            default:
-                break;
         }
     }
 

@@ -128,6 +128,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd917ec129536474b98e941447e1153c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameStartedDelay: 0.5
+  gameLookAtPlayerDelay: 0.5
   followSpeed: 1.5
-  zOffset: -10
+  zOffsetPlayer: -10
   cameraHeight: 20
+  mapHeight: 100
+  zOffsetMap: -40
