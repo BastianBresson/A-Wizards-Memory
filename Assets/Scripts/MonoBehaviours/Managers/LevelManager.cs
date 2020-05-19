@@ -12,6 +12,8 @@ public class LevelManager : MonoBehaviour
     private int levelsCompleted;
 
     [SerializeField] private GameObject startPlatformEnd = default;
+    [SerializeField] private GameObject endPlatform = default;
+    [SerializeField] private GameObject endPlatformStart = default;
 
     [SerializeField] private GameObject[] smallRooms = default;
     [SerializeField] private GameObject[] mediumRooms = default;
@@ -22,7 +24,7 @@ public class LevelManager : MonoBehaviour
     {
         levelsCompleted = GameManager.Instance.LevelsCompleted;
 
-        StartCoroutine(spawnRoomsCoroutine());
+        StartCoroutine(SpawnRoomsCoroutine());
     }
 
     public void RoomCleared()
@@ -31,11 +33,18 @@ public class LevelManager : MonoBehaviour
 
         if (roomsCleared == roomsSpawned)
         {
-            GameManager.Instance.LevelComplete();
+            LevelCompleted();
         }
     }
 
-    private IEnumerator spawnRoomsCoroutine()
+
+    private void LevelCompleted()
+    {
+        
+    }
+
+
+    private IEnumerator SpawnRoomsCoroutine()
     {
         int roomLvlLower = RoomLevelLowerBound();
         int roomLvlUpper = RoomLevelUpperBound();
@@ -53,11 +62,13 @@ public class LevelManager : MonoBehaviour
             GameObject room = SpawnRoom(roomToSpawn);
 
             RoomBehaviour roomBehaviour = room.GetComponent<RoomBehaviour>();
-            Vector3 distance = DistanceFromEndToStart(end, roomBehaviour.RoomStart);
-            room.transform.position += distance;
+
+            PlaceRoom(room, roomBehaviour.RoomStart, end);
 
             end = roomBehaviour.RoomEnd;
         }
+
+        PlaceRoom(endPlatform, endPlatformStart, end);
     }
 
     private int RoomLevelLowerBound()
@@ -109,6 +120,13 @@ public class LevelManager : MonoBehaviour
         GameObject spawnedRoom = Instantiate(roomToSpawn);
         roomsSpawned++;
         return spawnedRoom;
+    }
+
+
+    private void PlaceRoom(GameObject room, GameObject roomStart, GameObject previouslyRoomEnd)
+    {
+        Vector3 distance = DistanceFromEndToStart(previouslyRoomEnd, roomStart);
+        room.transform.position += distance;
     }
 
 

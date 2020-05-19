@@ -14,10 +14,10 @@ public class LevelSelectBehaviour : MonoBehaviour
 
     private void Start()
     {
-        getLevelSelectVariables();
-        setMaterial(material);
+        GetLevelSelectVariables();
+        SetMaterial(material);
 
-        setupSelection();
+        SetupSelection();
     }
 
 
@@ -28,7 +28,7 @@ public class LevelSelectBehaviour : MonoBehaviour
     }
 
 
-    private void getLevelSelectVariables()
+    private void GetLevelSelectVariables()
     {
         element = levelSelect.element;
         upgradeType = levelSelect.upgradeType;
@@ -36,14 +36,14 @@ public class LevelSelectBehaviour : MonoBehaviour
     }
 
 
-    private void setupSelection()
+    private void SetupSelection()
     {
         selector = this.gameObject.AddComponent<SelectBehaviour>();
         selector.OnSelect = this.Selected;
     }
 
 
-    private void setMaterial(Material material)
+    private void SetMaterial(Material material)
     {
         this.gameObject.GetComponent<Renderer>().material = this.material;
     }
