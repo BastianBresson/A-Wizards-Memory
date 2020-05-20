@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour
     [Header("Movement")]
     private float currentMovementSpeed;
     [SerializeField] private float movementSpeed = 4f;
+    [SerializeField] private float movementSpeedIncreaseRate = 5f;
+    [SerializeField] private float movementSpeedDecreaseRate = 5f;
     [SerializeField] private float rotationSpeed = 5f;
     [Space(5)]
 
@@ -92,6 +94,8 @@ public class PlayerController : MonoBehaviour
         UpdateMovementDireciton();
 
         PlayerRotation();
+
+        ControlMovementSpeedWhenCasting();
     }
 
 
@@ -206,8 +210,6 @@ public class PlayerController : MonoBehaviour
     {
         if (!isProjectileCasting && !isShieldCasting)
         {
-            SlowDownMovementSpeed();
-
             isProjectileCasting =  true;
             
             spellCast.StartProjectileCast(currentElement.ElementalSpellPrefab, currentElement);
@@ -219,8 +221,6 @@ public class PlayerController : MonoBehaviour
     {
         if (isProjectileCasting && !isShieldCasting)
         {
-            SpeedUpMovementSpeed();
-
             isProjectileCasting = false;
 
             spellCast.CastProjectileSpell();
@@ -232,8 +232,6 @@ public class PlayerController : MonoBehaviour
     {
         if (!isShieldCasting && !isProjectileCasting)
         {
-            SlowDownMovementSpeed();
-
             isShieldCasting = true;
 
             spellCast.CastElementShield(currentElement.ElementalShieldPrefab);
@@ -246,8 +244,6 @@ public class PlayerController : MonoBehaviour
     {
         if (isShieldCasting && !isProjectileCasting)
         {
-            SpeedUpMovementSpeed();
-
             isShieldCasting = false;
 
             spellCast.StopCastingShield();
@@ -255,45 +251,31 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    private void SlowDownMovementSpeed()
+    private void ControlMovementSpeedWhenCasting()
     {
-        if (this.gameObject != null)
+        if (isShieldCasting || isProjectileCasting)
         {
-            StopCoroutine(SpeedUpMomementSpeedCoroutine());
+            IncreaseMovementSpeed();
+        }
+        else if (currentMovementSpeed < movementSpeed)
+        {
+            DecreaseMovementSpeed();
+        }
+    }
 
-            StartCoroutine(SlowDownMomementSpeedCoroutine());
+    
+    private void IncreaseMovementSpeed()
+    {
+        if (currentMovementSpeed > movementSpeed / 2)
+        {
+            currentMovementSpeed -= movementSpeedDecreaseRate * Time.deltaTime;
         }
     }
 
 
-    IEnumerator SlowDownMomementSpeedCoroutine()
+    private void DecreaseMovementSpeed()
     {
-        while (currentMovementSpeed > (movementSpeed / 2))
-        {
-            currentMovementSpeed -= 5 * Time.deltaTime;
-            yield return null;
-        }
-    }
-
-
-    private void SpeedUpMovementSpeed()
-    {
-        if (this.gameObject != null)
-        {
-            StopCoroutine(SlowDownMomementSpeedCoroutine());
-
-            StartCoroutine(SpeedUpMomementSpeedCoroutine());
-        }
-    }
-
-
-    IEnumerator SpeedUpMomementSpeedCoroutine()
-    {
-        while (currentMovementSpeed < movementSpeed)
-        {
-            currentMovementSpeed += 5 * Time.deltaTime;
-            yield return null;
-        }
+        currentMovementSpeed += movementSpeedIncreaseRate * Time.deltaTime;
     }
 
 
@@ -356,6 +338,7 @@ public class PlayerController : MonoBehaviour
     {
         controls.Disable();
     }
+
 
     private void OnDrawGizmos()
     {
