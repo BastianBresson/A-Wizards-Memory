@@ -239,7 +239,7 @@ VisualEffect:
         m_Overridden: 1
     m_NamedObject:
       m_Array:
-      - m_Value: {fileID: -6564086670116265437, guid: ffdd02c40cc64e047978e83a664f83cf,
+      - m_Value: {fileID: 4711208715938537054, guid: ffdd02c40cc64e047978e83a664f83cf,
           type: 3}
         m_Name: Mesh
         m_Overridden: 1
@@ -310,23 +310,23 @@ PrefabInstance:
     - target: {fileID: -4216859302048453862, guid: ffdd02c40cc64e047978e83a664f83cf,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: ffdd02c40cc64e047978e83a664f83cf,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: ffdd02c40cc64e047978e83a664f83cf,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: -1504981713932161579, guid: ffdd02c40cc64e047978e83a664f83cf,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: d3c91f2520a1a094491ec817277e57b9, type: 2}
+      objectReference: {fileID: 2100000, guid: 5ca96879bd429e24dae651e627c8c762, type: 2}
     - target: {fileID: -927199367670048503, guid: ffdd02c40cc64e047978e83a664f83cf,
         type: 3}
       propertyPath: m_Name
