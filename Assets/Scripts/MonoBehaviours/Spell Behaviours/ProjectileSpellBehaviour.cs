@@ -7,10 +7,12 @@ public class ProjectileSpellBehaviour : MonoBehaviour
 {
     public ProjectileSpell projectileSpell;
 
+    private bool canSpawnOnDestroy = true;
+
     private bool hasBeenCast;
     private float range;
     private float speed;
-    public float damage;
+    private float damage;
 
     private Vector3 startPosition;
     private Vector3 startScale;
@@ -121,6 +123,45 @@ public class ProjectileSpellBehaviour : MonoBehaviour
             collidedObject.GetComponent<HealthBehaviour>().ReceiveDamage(this.damage);
         }
     }
+
+
+    private void OnDestroy()
+    {
+        if (!canSpawnOnDestroy) return;
+
+        SpawnExplosionParticle();
+    }
+
+
+    private void SpawnExplosionParticle()
+    {
+        Quaternion spawnRotation = Quaternion.LookRotation(-1 * this.transform.forward);
+        GameObject particle = Instantiate(projectileSpell.ExplosionParticle, transform.position, spawnRotation);
+
+        float explosionDuration = particle.GetComponent<ParticleSystem>().main.duration;
+
+        MoveProjectileLight(explosionDuration);
+
+        Destroy(particle, explosionDuration);
+    }
+
+    private void MoveProjectileLight(float duration)
+    {
+        Light light = this.gameObject.GetComponentInChildren<Light>();
+        light.enabled = true;
+
+        light.transform.parent = null;
+        light.transform.position = this.transform.position;
+
+        Destroy(light.gameObject, duration);
+    }
+
+
+    private void OnApplicationQuit()
+    {
+        canSpawnOnDestroy = false;
+    }
+
 
 
     void NullChecks()

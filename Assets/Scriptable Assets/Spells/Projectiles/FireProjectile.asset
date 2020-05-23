@@ -16,3 +16,5 @@ MonoBehaviour:
   Range: 20
   Element: {fileID: 11400000, guid: d0d9fd77e9e3d8945a696d6b3ef442c7, type: 2}
   Speed: 600
+  ExplosionParticle: {fileID: 1882379028908468982, guid: e78907909c911d24ba76a69cd8d5e0bd,
+    type: 3}
