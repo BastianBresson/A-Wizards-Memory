@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Earth
+  m_Name: EarthProjectile
   m_Shader: {fileID: -6465566751694194690, guid: e173baa392c8b564897c61b59ca8fc28,
     type: 3}
   m_ShaderKeywords: 

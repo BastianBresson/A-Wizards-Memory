@@ -73,7 +73,9 @@ public class SpellCastBehaviour : MonoBehaviour
         Vector3 direction = shieldCastPoint.transform.forward;
         direction.y = 0;
 
+
         castingShield = Instantiate(shield, shieldCastPoint.transform.position, Quaternion.LookRotation(direction), shieldCastPoint.transform);
+        castingShield.transform.Rotate(new Vector3(0, 0, 90));
     }
 
 
