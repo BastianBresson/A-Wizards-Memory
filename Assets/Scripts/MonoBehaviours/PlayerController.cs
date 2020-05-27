@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     private bool canSelect;
     private SelectBehaviour selector;
 
+    private bool isMenuActive;
+
     // Movment
     private InputMaster controls;
     private CharacterController controller;
@@ -46,9 +48,16 @@ public class PlayerController : MonoBehaviour
     SpellCastBehaviour spellCast;
 
 
-    public void OnGameStarted()
+    public void EnableControls()
     {
         controls.Enable();
+    }
+
+
+    public void DisableControls()
+    {
+        controls.Disable();
+        isMenuActive = true;
     }
 
 
@@ -124,7 +133,7 @@ public class PlayerController : MonoBehaviour
     {    
         Scene currentScene = SceneManager.GetActiveScene();
 
-        if (currentScene.name == "MemoryLevel" && MainMenu.gameHasStarted)
+        if (currentScene.name == "MemoryLevel" && !isMenuActive)
         {
             Vector3 pos = GameManager.Instance.PlayerPosition;
             this.transform.position = pos;
@@ -327,10 +336,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        if (MainMenu.gameHasStarted)
-        {
-            controls.Enable();
-        }
+        controls.Enable();
     }
 
 

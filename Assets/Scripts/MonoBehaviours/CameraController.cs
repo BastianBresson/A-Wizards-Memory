@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    private static bool gameIsStarted = false;
+    private bool followPlayer = true;
 
     private GameObject player;
 
@@ -30,6 +30,11 @@ public class CameraController : MonoBehaviour
     {
         StartCoroutine(OnGameHasStartedCoroutine());
 
+    }
+
+    public void DisableCameraFollow()
+    {
+        followPlayer = false;
     }
 
 
@@ -64,7 +69,7 @@ public class CameraController : MonoBehaviour
 
     void LateUpdate()
     {
-        if (player != null && gameIsStarted) // Player died
+        if (player != null && followPlayer)
         {
             Vector3 playerPosition = player.transform.position;
             
@@ -78,7 +83,7 @@ public class CameraController : MonoBehaviour
 
     private void SetStartPositionIfGameStarted()
     {
-        if (MainMenu.gameHasStarted)
+        if (followPlayer)
         {
             SetLookAtAngles();
             Vector3 startPosition = player.transform.position + followPlayerOffSet;
@@ -132,7 +137,7 @@ public class CameraController : MonoBehaviour
 
             if (passedTime/timeToLook > 0.7f)
             {
-                gameIsStarted = true;
+                followPlayer = true;
             }
 
             yield return null;
