@@ -334,7 +334,7 @@ PrefabInstance:
     - target: {fileID: 3924243686638662548, guid: 7ade06d31663397438c0dfc24487bfda,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3924243686638662548, guid: 7ade06d31663397438c0dfc24487bfda,
         type: 3}
@@ -1380,7 +1380,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 0
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
