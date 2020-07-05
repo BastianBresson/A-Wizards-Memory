@@ -7,6 +7,10 @@ public class ProjectileSpellBehaviour : MonoBehaviour
 {
     public ProjectileSpell projectileSpell;
 
+    [SerializeField] private AudioSource audioSource = default;
+    [SerializeField] AudioEvent chargeAudioEvent = default;
+    [SerializeField] AudioEvent launchAudioEvent = default;
+
     private bool canSpawnOnDestroy = true;
 
     private bool hasBeenCast;
@@ -31,6 +35,8 @@ public class ProjectileSpellBehaviour : MonoBehaviour
         rigidBody = this.gameObject.GetComponent<Rigidbody>();
         rigidBody.isKinematic = true;
 
+        PlayChargingSound();
+        
     }
 
 
@@ -44,10 +50,12 @@ public class ProjectileSpellBehaviour : MonoBehaviour
     {
         OnCastSetVariables();
 
-        LaunchProjectile(direction); //should happen before increasing mass for consistent speed
+        LaunchProjectile(direction); //should happen before increasing mass (in OnCastSetVariables) for consistent speed
 
         float scaleIncrease = ScaleIncreaseFactor(originalScale);
         IncreaseDamageAndMass(scaleIncrease);
+
+        PlayLaunchSound();
     }
 
 
@@ -59,6 +67,7 @@ public class ProjectileSpellBehaviour : MonoBehaviour
         hasBeenCast = true;
 
         rigidBody.isKinematic = false;
+        rigidBody.collisionDetectionMode = CollisionDetectionMode.Continuous;
     }
 
 
@@ -154,6 +163,18 @@ public class ProjectileSpellBehaviour : MonoBehaviour
         light.transform.position = this.transform.position;
 
         Destroy(light.gameObject, duration);
+    }
+
+
+    private void PlayChargingSound()
+    {
+        chargeAudioEvent.Play(audioSource);
+    }
+
+
+    private void PlayLaunchSound()
+    {
+        launchAudioEvent.Play(audioSource);
     }
 
 

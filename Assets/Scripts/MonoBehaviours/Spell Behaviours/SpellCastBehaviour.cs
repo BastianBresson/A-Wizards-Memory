@@ -114,7 +114,7 @@ public class SpellCastBehaviour : MonoBehaviour
 
         while (currentScaleTime < scaleTime && castingProjectiles != null)
         {
-            ScaleAllCharingProjectiles(currentScaleTime, scaleTime);
+            ScaleAllChargingProjectiles(currentScaleTime, scaleTime);
 
             yield return null;
         }
@@ -176,7 +176,7 @@ public class SpellCastBehaviour : MonoBehaviour
     }
 
 
-    private void ScaleAllCharingProjectiles(float timeScaled, float scaleTime)
+    private void ScaleAllChargingProjectiles(float timeScaled, float scaleTime)
     {
         for (int i = 0; i < castingProjectiles.Count; i++)
         {

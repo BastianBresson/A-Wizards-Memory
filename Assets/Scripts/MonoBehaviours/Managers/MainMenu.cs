@@ -11,11 +11,11 @@ public class MainMenu : MonoBehaviour
     [SerializeField] private GameObject mainMenuPlatform = default;
     [SerializeField] private GameObject mainMenuGameObjectsParent = default;
 
-    [SerializeField] private Vector3 playerMenuPosition;
-    [SerializeField] private Vector3 cameraMenuPostion;
+    [SerializeField] private Vector3 playerMenuPosition = default;
+    [SerializeField] private Vector3 cameraMenuPostion = default;
 
-    [SerializeField] private Vector3 playerMenuEulerAngels;
-    [SerializeField] private Vector3 cameraMenuEulerAngels;
+    [SerializeField] private Vector3 playerMenuEulerAngels = default;
+    [SerializeField] private Vector3 cameraMenuEulerAngels = default;
 
 
 

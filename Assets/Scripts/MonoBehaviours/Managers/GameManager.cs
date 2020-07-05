@@ -7,18 +7,18 @@ public class GameManager : MonoBehaviour
 {
     #region Singleton
     
-    static GameManager _instance;
+    private static GameManager instance;
 
     public static GameManager Instance
     {
         get
         {
-            if (_instance == null)
+            if (instance == null)
             {
                 GameObject go = new GameObject("GameManager");
-                _instance = go.AddComponent<GameManager>();
+                instance = go.AddComponent<GameManager>();
             }
-            return _instance;
+            return instance;
         }
     }
     #endregion
